@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HTML5, CSS3  y JS</title>
+
+	<link rel="stylesheet"
+		href="./presentacion_files/style.css" type="text/css" media="screen"/>
+	<link rel="stylesheet"
+		href="./presentacion_files/prism.css" type="text/css" media="screen"/>
+		<script type="text/javascript"
+			src="./presentacion_files/jquery-1.6.2.min.js"></script>
+			<script type="text/javascript"
+			src="./presentacion_files/prism.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(".trigger").click(function() {
+					$(".panel").toggle("fast");
+					$(this).toggleClass("active");
+					return false;
+				});
+			});
+		</script>
+
+<link rel="stylesheet" href="./presentacion_files/main.css">
+<link rel="stylesheet" href="./presentacion_files/zenburn.css">
+
+
+<!--<base target="_blank">-->
+<base href="." target="_blank">
+<!--<link rel="shortcut icon" href="favicon.ico">-->
+<!--<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>-->
+<meta charset="utf-8">
+
+<script type="text/javascript" src="./presentacion_files/jquery-1.6.2.min.js"></script>
+<script>
+	$(init);
+
+	function init() {
+
+		$('#infoLink').bind('click', openMoreInfo);
+		$("#controlButtonWrapper").css("top", viewportHeight - 25);
+	}
+
+	function openMoreInfo() {
+		$('#infoLink').unbind('click');
+
+		$("#header").animate({
+			top : 0
+		}, 500, function() {
+			$('#infoLink').bind('click', closeMoreInfo);
+		});
+	}
+
+	function closeMoreInfo() {
+		$('#infoLink').unbind('click');
+		$("#header").animate({
+			top : $("#header").height() * -1 + 2
+		}, 500, function() {
+			$('#infoLink').bind('click', openMoreInfo);
+		});
+	}
+</script>
+
+</head>
+<body class=" ready">
+	<div id="container">
+		<canvas width="1280" height="656"></canvas>
+	</div>
+	<div id="reveal" class=" ">
+
+		<!-- Any section element inside of this container is displayed as a slide -->
+
+
+		<div class="slides">
+		
+			<section class="present" data-index-h="0"></section>
+
+			<section class="future"
+				style="background: url(./presentacion_files/Picture0.png) no-repeat;"
+				data-index-h="0">
+
+				<div class="shape"
+					style="position: absolute; width: 795px;  top: 400px; left: 48px">
+					<p
+						style="font-weight: normal; font-style: normal; text-decoration: none; background-color: inherit; color: #FFFFFF; font-family: Arial; font-size: 36.0pt; font-variant: normal; text-align: left; list-style-type: none; direction: ltr;">
+						<span style="font-weight: bold;">Introducción a HTML5, CSS3 <br/>y Javascript</span>
+						
+					</p>
+					<p
+						style="font-weight: normal; font-style: normal; text-decoration: none; background-color: inherit; color: #FFFFFF; font-family: Arial; font-size: 20.0pt; font-variant: normal; text-align: left; list-style-type: none; direction: ltr;">
+						<span style="font-weight: bold;">Agosto 2012</span><span
+							style="font-size: 36.0pt;"></span>
+					</p>
+				</div>
+			</section>
+
+			<section class="future" data-index-h="2">
+
+				<div class="shape header">
+					<h4 class="titul">Temario</h4>
+				</div>
+				<div class="shape body"  >
+					<ul >
+						<li >HTML5, tags nuevos y deprecados</li>
+						<li >CSS3 animaciones, transformaciones, Media Queries</li>
+						<li >Adaptabilidad de sitio para mobile browsers</li>
+						<li >Patrones de diseño JS</li>
+						<li >Javascript Client Side (DOM)</li>
+						<li >Javascript Server Side (Node.js y NoSQL)</li>
+						<li >Aplicaciones mobile nativas/híbridas basadas en JS</li>
+						<li >Paradigmas y tendencias para buenas prácticas</li>
+					</ul>
+				</div>
+			</section>
+			
+			<section class="future" data-index-h="3">
+
+				<div class="shape header">
+					<h4 class="titul">HTML5, breve reseña</h4>
+				</div>
+				<div class="shape body" >
+					HTML5 es la evolución de HTML4.01
+					<br>
+					Pero...<br>
+					No es un lenguaje propiamente dicho, 
+					sino que es una conjunción de tecnologías que fueron 
+					volviendose estándares con la evolución de la web
+					 
+					
+				</div>
+			</section>
+
+				
+			<section style="display: block;" class="future stack" data-index-h="5">
+				<section data-index-h="5" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">HTML5, Novedades</h4>
+					</div>
+					<div class="shape body" style="font-size: 0.7em">
+
+				<ul>
+					<li>Incorpora tags de manera nativa (canvas 2D y 3D, audio, video) con codecs para mostrar los contenidos multimedia. </li> 
+					<li>Etiquetas para manejar grandes conjuntos de datos: <a href="http://www.w3.org/TR/2009/WD-html5-20090212/interactive-elements.html#datagrid">Datagrid</a>(deprecado por no implementación),<a href="http://www.w3.org/wiki/HTML/Elements/command">Command</a>, <a href="http://www.w3schools.com/html5/tag_menu.asp">menu</a>(redefinido en html5, pero no implementado). </li>
+					<li><a href="http://www.w3schools.com/html5/html5_form_input_types.asp">Mejoras en los formularios</a>. Nuevos tipos de datos (eMail, number, url, datetime …) y facilidades para validar el contenido sin Javascript.</li>
+					<li>Visores: MathML (fórmulas matemáticas) y <a href="http://www.w3schools.com/svg/svg_intro.asp">SVG</a> (gráficos vectoriales).</li>
+				</ul>
+				</div>
+
+				</section>
+				<section data-index-h="5" data-index-v="1"
+					style="display: block; background: white">
+					<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_input_type_email"></iframe>
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_input_type_number"></iframe>
+				
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">								
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_input_type_url"></iframe>
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.mathjax.org/demos/mathml-samples/"></iframe>
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/svg/tryit.asp?filename=trysvg_myfirst"></iframe>
+				<div class="footnotes">
+				<a href="http://www.w3schools.com/svg/svg_examples.asp">Más ejemplos</a>
+				<br/>
+				<a href="http://www.w3schools.com/svg/svg_reference.asp">lista completa</a><br/>
+				</div>
+				</section>
+				
+				
+				
+				
+				
+		</section>
+				
+
+	<section class="future" data-index-h="4">
+
+				<div class="shape header">
+					<h4 class="titul">Web Semántica</h4>
+				</div>
+				<div class="shape body" style="text-align: left;">
+
+			<ul>
+
+				<li>Añade tags para manejar la Web Semántica (Web 3.0): <a href="http://www.w3schools.com/html5/tag_header.asp">header</a>,
+				 <a href="http://www.w3schools.com/html5/tag_footer.asp">footer</a>, 
+				 <a href="http://www.w3schools.com/html5/tag_article.asp">article</a>, 
+				 <a href="http://www.w3schools.com/html5/tag_nav.asp" >nav</a>, 
+				 <a href="http://www.w3schools.com/html5/tag_time.asp">time</a>( fecha del contenido),etc.</li>
+				<li>Describen el significado del contenido. Por ej: importancia, su finalidad y las relaciones que existen.</li>
+				<li>No tienen especial impacto en la visualización, se orientan a buscadores.</li>
+				<li>Permite incorporar a las páginas archivos RDF / OWL (con meta información) para describir relaciones entre los términos utilizados.</li>
+			</ul>
+			</div>
+			<div class="footnotes">
+			<a href="http://skillport.books24x7.com/toc.aspx?bkid=31954">Semantic web for dummies</a>
+			<br/>
+			<a href="http://shop.oreilly.com/product/9780596153823.do">Programming the semantic web</a>
+			<br/>
+			<a href="http://www.w3schools.com/rdf/rdf_example.asp">Ejemplo de rdf</a>
+			</div>
+			</section>
+			
+			<section class="future" data-index-h="4">
+
+				<div class="shape header">
+					<h4 class="titul">Tags Deprecados</h4>
+				</div>
+				<div class="shape body" style="text-align: left;">
+
+			<ul>
+
+				<li>"applet". Se reemplaza por "object"</li>
+				<li>Relacionados con formateo de estilos (center,big,strike)</li>
+				<li>"frames", "frameset" y "noframes"</li>
+			</ul>
+			<a href="http://www.w3schools.com/html5/html5_reference.asp">Lista completa</a>
+			</div>
+			<div class="footnotes">
+			<a href="http://www.html-5.com/changes/deprecated/index.html">atributos deprecados</a>
+			</div>
+			</section>
+			
+			<section style="display: block;" class="future stack" data-index-h="5">
+				<section data-index-h="5" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">APIs nuevas</h4>
+					</div>
+					<div class="shape body" style="font-size: 0.7em">
+					<ul >
+						<li >API para hacer <a href="http://www.w3schools.com/html5/html5_draganddrop.asp" >Drag & Drop.</a>. Mediante eventos.<a href="http://html5doctor.com/native-drag-and-drop/">ej</a></li>
+						<li >API para trabajar <a href="http://www.w3schools.com/html5/html5_app_cache.asp">Off-Line.</a> Permite descargar todos los contenidos necesarios y trabajar en local.</li>
+						<li >API de <a href="http://www.w3schools.com/html5/html5_geolocation.asp">Geoposicionamiento</a> para dispositivos que lo soporten.</li>
+						<li >API <a href="http://www.w3schools.com/html5/html5_webstorage.asp">Storage</a>. Facilidad de almacenamiento persistente en local, con bases de datos (basadas en SQLite) o con almacenamiento de objetos por aplicación o por dominio Web (Local Storage, Session Storage y Global Storage). Se dispone de una Base de datos con la posibilidad de hacer consultas <a href="http://www.w3.org/TR/webdatabase/">SQL</a> (cayendo en desuso).</li>
+					</ul>
+				</div>
+
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_draganddrop"></iframe>
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_html_manifest"></iframe>
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_geolocation"></iframe>
+				</section>
+		</section>
+		
+		<section style="display: block;" class="future stack" data-index-h="5">
+				<section data-index-h="5" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">APIs nuevas (Cont)</h4>
+					</div>
+					<div class="shape body" style="font-size: 0.7em">
+					<ul >
+						<li ><a href="http://www.websocket.org/">WebSockets</a>. API de comunicación bidireccional entre páginas. Similar a los Sockets de C.</li>
+						<li ><a href="http://www.w3schools.com/html5/html5_webworkers.asp">WebWorkers </a>. Hilos de ejecución en paralelo.</li>
+						<li >ESTÁNDAR FUTURO. System Information API. Acceso al hardware a bajo nivel: red, archivos, CPU, Memoria, puertos USB, cámaras, micrófonos</li>
+					</ul>
+					</div>
+
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;background:white">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.websocket.org/echo.html"></iframe>
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_webworker"></iframe>
+				</section>
+		</section>
+			
+			<section style="display: block;" class="future stack" data-index-h="5">
+				<section data-index-h="5" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">Media Tags</h4>
+					</div>
+					<div class="shape body">
+					<ul>
+					<li><a href="http://www.w3schools.com/html5/tag_audio.asp">Audio</a> Define un contenido de sonido</li> 
+					<li><a href="http://www.w3schools.com/html5/html5_video.asp">Video</a>Define un contenido de video </li> 
+					<li><a href="http://www.w3schools.com/html5/tag_source.asp">Source</a> Define múltiples opciones para audio o video </li>
+					<li><a href="http://www.w3schools.com/html5/tag_embed.asp">embed</a>Contenedor para una aplicación externa o contenido interactivo (un plug in)</li>
+					<li><a href="http://www.w3schools.com/html5/tag_track.asp">Track</a>Define track de texto (subtítulos) </li>
+					</ul>
+					</div>
+
+				</section>
+				<section data-index-h="5" data-index-v="1"
+					style="display: block; background: white">
+					<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_audio_all"></iframe>
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_video_all"></iframe>
+				<div class="footnotes">
+				<a href="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_video_js_prop">Ej de video con controles JS</a>
+				</div>
+				
+				</section>
+		</section>
+				
+		<section class="future" data-index-h="2">
+
+				<div class="shape header">
+					
+				<h4 class="titul">CSS3</h4>
+					</div>
+					<div class="shape body" style="text-align:center">
+					<h2 style="color:black">CSS3</h2>
+					<ul>
+					<li>Transformaciones</li> 
+					<li>Transiciones</li> 
+					<li>Animaciones</li>
+					<li>Media Queries</li>
+					</ul>
+				</div>
+			</section>
+						<section style="display: block;" class="future stack" data-index-h="5">
+				<section data-index-h="5" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">CSS3 - Transformaciones</h4>
+					</div>
+					<div class="shape body">
+					<ul>
+					<li>Trasladar</li> 
+					<li>Escalar</li> 
+					<li>Rotar</li>
+					<li>Skew (oblicuar, torcer)</li>
+					<li>Matriz de transformación</li>
+					<li>Perspectiva</li>
+					<li>Ninguna</li>
+					</ul>
+					
+					</div>
+
+				</section>
+				<section data-index-h="5" data-index-v="1" style="padding:5px;text-align:left;color:black;display: block; background: white">
+					<h4 style="color:black">Def</h4>
+					<pre>
+					<code class="language-css" style="background:white;font-size:1.3em">
+					
+					div{
+	transform:transformacion_a_aplicar;
+	-ms-transform:transformacion_a_aplicar; /* IE 9 */
+	-moz-transform:transformacion_a_aplicar; /* Firefox */
+	-webkit-transform:transformacion_a_aplicar; /* Safari and Chrome */
+	-o-transform:transformacion_a_aplicar; /* Opera */
+	}
+					</code>
+					</pre>
+					</section>
+				<section data-index-h="5" data-index-v="1"
+					style="display: block;color:black; background: white">
+					translate(x,y),	
+					translateX(x),
+					translateY(y),
+					translateZ(z)<br/>
+					translate3d(x,y,z) (no soportado por todos los browsers)<br/>	
+					<iframe style="height:100%;width:100%;min-height:500px"
+						src="http://www.w3schools.com/cssref/playit.asp?filename=playcss_transform_translate"></iframe>
+				</section>
+				
+				<section data-index-h="5" data-index-v="1" style="display: block;color:black; background: white">
+				scale(x,y),scaleX(x),scaleY(y),scaleZ(z),
+				<br/>scale3d(x,y,z)(no soportado por todos los browsers)
+				<iframe style="width: 100%; height: 100%;min-height:500px"
+						src="http://www.w3schools.com/cssref/playit.asp?filename=playcss_transform_scale"></iframe>
+				
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;color:black; background: white">
+				rotate(angle),rotateX(angle),rotateY(angle),rotateZ(angle)
+				<br/>rotate3d(x,y,z,angle)<a href="http://www.w3schools.com/css3/css3_3dtransforms.asp">ej</a>
+				<a href="http://www.html5rocks.com/en/tutorials/3d/css/">ej completo</a>
+				<iframe style="width: 100%; height: 100%;min-height:500px"
+						src="http://www.w3schools.com/cssref/playit.asp?filename=playcss_transform_rotate"></iframe>
+				
+				</section>
+				
+				<section data-index-h="5" data-index-v="1" style="display: block;color:black; background: white">
+				skew(x-angle,y-angle),skewX(angle),skewY(angle)	
+				<iframe style="width: 100%; height: 100%;min-height:500px"
+						src="http://www.w3schools.com/cssref/playit.asp?filename=playcss_transform_skew"></iframe>
+				
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;color:black; background: white">
+				transform: perspective( 400px ) ; perspective: 400px;	
+				<iframe style="width: 100%; height: 100%;min-height:500px"
+						src="http://desandro.github.com/3dtransforms/examples/perspective-01.html"></iframe>
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;color:black; background: white">
+				matrix(n,n,n,n,n,n),matrix3d(n,n,n,n,n,n,n,n,n,n,n,n,n,n,n,n)
+				<iframe style="width: 100%; height: 100%;min-height:500px"
+						src="http://www.w3schools.com/cssref/playit.asp?filename=playcss_transform_matrix"></iframe>
+				
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;color:black; background: white">
+				<h4 style="color:black">Ejemplo</h4>
+				<div style="text-align:left">
+				<pre>
+					<code class="language-css" style="background:white">
+				#transformedObject {<br/>
+     			transform:  matrix(0.9, -0.05, -0.375, 1.375, 220, 20);
+     			<br/>
+				}</code></pre>
+				</div>
+				
+				Se aplica la transformación a cada punto del elemento, incluyendo el contenido
+				<br/>
+				<a href="http://www.useragentman.com/blog/2011/01/07/css3-matrix-transform-for-the-mathematically-challenged/">ejemplo completo</a>
+				<br/>
+				
+				<div style="width: 97.8%;height: 141px;position:absolute;font-size: 0.5em;background-image: url('./presentacion_files/background.gif')">
+					<div id="exampleObject1" style="left: 10px;
+								font-size:2em;
+								top: 10px;
+								width: 200px;
+								height: 80px;
+								background: red;
+								color:#0000ff;
+								position: absolute;
+								z-index:-1">Contenido</div>
+    				<div style="background: url('./presentacion_files/crosshair.png') no-repeat;
+								width: 100px;height: 35px;
+								margin: -17px 0 0 -17px;
+								z-index: 200;left: 10px;top: 10px;
+								position: absolute;">P0 (0, 0)</div>
+    				<div style="background: url('./presentacion_files/crosshair.png') no-repeat;
+								width: 100px;height: 35px;
+								margin: -17px 0 0 -17px;
+								z-index: 200;left: 210px;top: 10px;
+								position: absolute;">P1 (200,0)</div>
+    				<div style="background: url('./presentacion_files/crosshair.png') no-repeat;
+								width: 100px;height: 35px;
+								margin: -17px 0 0 -17px;
+								z-index: 200;left: 10px;top: 90px;
+								position: absolute;">P2 (0,80)</div>
+    				<div style="background: url('./presentacion_files/crosshair.png') no-repeat;
+								width: 100px;height: 35px;
+								margin: -17px 0 0 -17px;
+								z-index: 200;left: 210px;top: 90px;
+								position: absolute;">P3 (200,80)</div>
+								
+					<div style="width: 25px; height: 25px; border-left: 100px solid green;
+   								left: 250px;position:absolute;top: 40px;"></div>			
+					<div style="width: 0; height: 0; border-left: 100px solid green;
+   								border-top: 50px solid transparent;
+   								border-bottom: 50px solid transparent;
+   								left: 350px;position:absolute"></div>
+
+   					
+   					<div id="exampleObject2" style="left: 305px;
+   								font-size:2em;
+								top: 10px;
+								width: 200px;
+								height: 80px;
+								background: red;
+								color:#0000ff;
+								position: absolute;
+								-webkit-transform: matrix(0.9, -0.05, -0.375, 1.375, 220, 20); 
+								z-index:-1">Contenido</div>
+    				<div style="background: url('./presentacion_files/crosshair.png') no-repeat;
+								width: 100px;height: 35px;
+								margin: -17px 0 0 -17px;
+								z-index: 200;left: 550px;top: 20px;
+								position: absolute;">P0'(220, 20)</div>
+    				<div style="background: url('./presentacion_files/crosshair.png') no-repeat;
+								width: 100px;height: 35px;
+								margin: -17px 0 0 -17px;
+								z-index: 200;left: 730px;top: 10px;
+								position: absolute;">P1' (400,10)</div>
+    				<div style="background: url('./presentacion_files/crosshair.png') no-repeat;
+								width: 100px;height: 35px;
+								margin: -17px 0 0 -17px;
+								z-index: 200;left: 520px;top: 130px;
+								position: absolute;">P2' (190,130)</div>
+    				<div style="background: url('./presentacion_files/crosshair.png') no-repeat;
+								width: 100px;height: 35px;
+								margin: -17px 0 0 -17px;
+								z-index: 200;left: 700px;top: 120px;
+								position: absolute;">P3' (370,120)</div>
+   					
+				</div>
+				
+				</section>
+				
+			</section>
+			<section style="display: block;" class="future stack" data-index-h="5">
+				<section data-index-h="5" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">CSS3 - Transiciones</h4>
+					</div>
+					<div class="shape body">
+					Se ejecutan al realizar un cambio en alguna propiedad de un objeto
+					<br/>
+					<ul style="font-size:0.7em">						
+					<li> <a href="http://www.w3schools.com/cssref/css3_pr_transition-property.asp">transition-property</a>: Propiedad sobre la cual se va a aplicar la transición</li> 	
+					<li> <a href="http://www.w3schools.com/cssref/css3_pr_transition-duration.asp">transition-duration</a>: Tiempo de duración de la transición. Default 0</li>	
+					<li> <a href="http://www.w3schools.com/cssref/css3_pr_transition-timing-function.asp">transition-timing-function</a>:	Efecto temporal que se va a aplicar. Default "ease"</li>	
+					<li> <a href="http://www.w3schools.com/cssref/css3_pr_transition-delay.asp">transition-delay</a>:Tiempo de espera antes de empezar la transición. Default 0</li>
+					<li> <a href="http://www.w3schools.com/cssref/css3_pr_transition.asp">transition</a>: permite definir las propiedades anteriores en una sola línea</li>	
+					</ul>
+
+					</div>
+
+				</section>
+				
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/css3/tryit.asp?filename=trycss3_transition4"></iframe>
+				
+				</section>
+				<section data-index-h="5" data-index-v="1"
+					style="display: block; background: white">
+					<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/css3/tryit.asp?filename=trycss3_transition5"></iframe>
+				</section>
+				
+			</section>						
+
+			<section style="display: block;" class="future stack" data-index-h="5">
+				<section data-index-h="5" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">CSS3 - Animaciones</h4>
+					</div>
+					<div class="shape body">
+					Define comportamiento similar a transiciones encadenadas sobre las propiedades de estilos de un objeto
+					<br/>
+					<ul style="font-size:0.7em">						
+					<li> @keyframes	especifica la animación </li>
+					<li>animation-name	especifica el nombre de la animación definida por @keyframes </li> 
+					<li>animation-duration	tiempo en segundos o milisegundos para completar el ciclo de animación. Default 0</li>
+					<li>animation-timing-function	Análogo al caso de transicion. Default "ease"</li>
+					<li>animation-delay		Análogo al caso de transicion. Default 0</li>
+					<li>animation-iteration-count	cantidad de veces que se ejecuta la animación. Default 1</li>
+					</ul>
+
+					</div>
+
+				</section>
+				<section data-index-h="5" data-index-v="1" style="font-size:0.7em;display: block;color:black;background:white">
+				<h4 style="color:black">Propiedades (Cont.)</h4>
+				<ul>
+					<li>animation-direction	Especifica si la animación de debe o no ejecutar en reversa o ciclos alternados. Default "normal"</li>
+					<li>animation-play-state	especifica si la animación está ejecutando o pausada. Default "running"</li>
+					<li>animation	Forma corta de especificar las propiedades anteriores, excepto animation-play-state </li>
+				</ul>
+				<h5>Definición @keyframes </h5>
+				<pre>
+					<code class="language-css" style="background:white">
+					@keyframes animationname {keyframes-selector {css-styles;}}
+					</code></pre>
+				
+				<ul>
+				<li>animationname Requerido. Define el nombre de la animación.</li>
+				
+				<li>keyframes-selector Requerido. guía para el keyframe en el momento de la animación.</li>
+				
+				<li>Valores permitidos:<br/>
+				<ul>
+				<li>0-100%</li>
+				<li>from (lo mismo que 0%)</li>
+				<li>to (lo mismo que 100%)</li>
+				</ul>
+				</li>
+				<li>css-styles	Requerido. Una o más propiedades css válidas </li>
+				</ul>
+				</section>	
+					
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/css3/tryit.asp?filename=trycss3_animation1"></iframe>
+				
+				</section>
+				<section data-index-h="5" data-index-v="1"
+					style="display: block; background: white">
+					<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/css3/tryit.asp?filename=trycss3_animation2"></iframe>
+				</section>
+				<section data-index-h="5" data-index-v="1"
+					style="display: block; background: white">
+					<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/css3/tryit.asp?filename=trycss3_animation3"></iframe>
+				</section>
+				
+				
+			</section>		
+
+			<section style="display: block;" class="future stack" data-index-h="5">
+				<section data-index-h="5" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">CSS3 - Ejemplos</h4>
+					</div>
+					<div class="shape body">
+					MÁS EJEMPLOS CSS3
+					</div>
+
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.paulrhayes.com/experiments/accordion/#one"></iframe>
+				
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.romancortes.com/blog/pure-css-coke-can/"></iframe>
+				</section>
+				
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.useragentman.com/tests/cssSandpaper/cube3.html"></iframe>
+				
+				</section>
+				<section data-index-h="5" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%;background:white"
+						src="http://media.24ways.org/2009/15/space.html"></iframe>
+				
+				</section>
+				<section data-index-h="5" data-index-v="1"
+					style="display: block; background: white">
+					<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.paulrhayes.com/experiments/cube-3d/"></iframe>
+				</section>
+			</section>	
+			
+			<section style="display: block;" class="future stack" data-index-h="5">
+					<div class="shape header">
+						<h4 class="titul">CSS3 - Media queries</h4>
+					</div>
+					<div class="shape body" style="font-size:0.7em">
+					Permite definir una visualización selectiva <br/>
+					según la pantalla/viewport/media del dispositivo que está viendo el sitio
+					<br/>
+					Si el dispositivo cumple la regla de estilo, se aplica (simplemente true o false)
+					<br/>
+					Soporta conectores lógicos "and" "not" y "," (or)
+					<br/>
+					<a href="http://www.w3.org/TR/CSS2/media.html#media-types">MEDIAS (dispositivos) EN HTML4:</a>
+					<br/>
+					 ‘aural’, ‘braille’, ‘handheld’, ‘print’, ‘projection’, ‘screen’, ‘tty’, ‘tv’
+					 <br/>
+					MEDIAS CSS2:<br/>
+					CSS2 define la misma lista, pero <a href="http://www.w3.org/TR/CSS21/aural.html">‘aural’</a> es deprecado y agrega ‘embossed’, ‘speech’ y ‘all’
+					
+					</div>
+					<div class="footnotes">
+						<a href="https://github.com/andreasbovens/understanding-viewport">Ejemplos prácticos de viewport(código)</a>
+					</div>
+				</section>
+				<section style="display: block;" class="future stack" data-index-h="5">
+				<div class="shape header">
+						<h4 class="titul">Media queries en Html4 y CSS2:</h4>
+					</div>
+					<div class="shape body" style="font-size:0.7em">
+				
+				<pre>
+					<code class="language-html" style="background:white">
+	&lt;link rel="stylesheet" type="text/css" media="screen" href="sans-serif.css"&gt;
+	&lt;link rel="stylesheet" type="text/css" media="print" href="serif.css"&gt;
+					</code></pre>
+					<br/>
+					dentro de la hoja de estilo, se puede definir un estilo selectivo para una pantalla
+					<br/>
+					<span style="text-align:left">
+					<pre>
+					<code class="language-css" style="background:white">
+					@media screen {
+  	* { font-family: sans-serif }
+	}
+	
+	@media all and (min-width:500px) { … }
+	@media (min-width:500px) { … }  /*(Hacen lo mismo)*/
+					</code></pre>
+					</span>
+					
+					</div>
+					<div class="footnotes">
+					<a href="http://www.w3.org/Style/CSS/Test/MediaQueries/">Test Suite para Media queries</a>
+					</div>
+				</section>
+				<section style="display: block;" class="future stack" data-index-h="5">
+				<section data-index-h="5" data-index-v="0" style="display: block;">
+				<div class="shape header">
+						<h4 class="titul">Media queries en Html5 y CSS3:</h4>
+					</div>
+					<div class="shape body" style="font-size:0.6em">
+					<span style="font-weight:bold">Es el mismo comportamiento, simplemente agrega más valores posibles</span>
+					<br/>
+					<ul>
+					<li>
+					width / height (con prefijos opcionales "min-" y "max-") aplicables a display/viewport
+					<br/>Example: media="screen and (min-width:500px)"
+					</li>
+					<li>
+					device-width/device-height("min-" y "max-") ancho/alto de PANTALLA/PAPEL.
+					<br/>Example: media="screen and (device-height:500px)"
+					</li>
+					<li>
+					orientation: "portrait" or "landscape"
+					<br/>Example: media="all and (orientation: landscape)"
+					</li>
+					<li>
+					aspect-ratio: ("min-" and "max-") Relación entre ancho y alto del display/viewport
+					<br/>Example: media="screen and (aspect-ratio:16/9)"
+					</li><li>
+					device-aspect-ratio: ("min-" and "max-") Ídem pero con la relación ancho/alto del dispositivo
+					</li>
+					</ul>
+					</div>
+				</section>
+				<section data-index-h="5" data-index-v="1" style="font-size:0.7em;color:black;background:white;display: block;">
+				<h5>CSS3 Media queries (cont)</h5>
+				<ul><li>
+					color: "min-" and "max-" :bits por color del display.
+					<br/>Example: media="screen and (color:3)"
+					</li>
+					<li>
+					color-index: ("min-" and "max-") número de colores que el dispositivo puede soportar.
+					</li>
+					<li>
+					monochrome: ("min-" and "max-") bits por pixel buffer monocromo.
+					<br/>Example: media="screen and (monochrome:2)"
+					</li>
+					<li>
+					resolution:(dpi or dpcm) ("min-" and "max-")densidad del display/papel.
+					<br/>Example: media="print and (resolution:300dpi)"
+					</li>
+					<li>
+					scan:("progressive" and "interlace") método de escaneo del display de tv
+					<br/>Example: media="tv and (scan:interlace)"
+					</li>
+					<li>
+					grid:("1" ó "0") si el dispositivo de salida es una grilla o mapa de bits
+					"1" para grid, and "0" cualquier otro.
+					<br/>Example: media="handheld and (grid:1)"
+					</li>
+					</ul>
+					<h5>
+					El foco de las media queries está puesto en el "Responsive web design"
+					</h5>
+				</section>
+				<section data-index-h="4" data-index-v="1" style="display: block;">
+					<iframe style="width: 100%; height: 100%;min-height:600px"
+						src="http://www.responsivewebdesign.co.uk/"></iframe>
+				</section>
+				<section data-index-h="4" data-index-v="1" style="display: block;">
+					<iframe style="width: 100%; height: 100%;min-height:500px"
+						src="http://www.frankieroberto.com/responsive_text/"></iframe>
+						<div class="footnotes">
+						<a href="https://sifterapp.com/">ej de responsive text</a>
+						</div>
+				</section>
+				
+				
+				
+				
+			</section>			
+			
+			<section class="future" data-index-h="5">
+
+				<div class="shape header">
+					<h4 class="titul">Definiciones elementales de JS</h4>
+				</div>
+				<div class="shape body" style="text-align:left;font-size:0.7em">
+				<ul>
+					<li>Variables:<br/>
+					<pre>
+					<code class="language-javascript" style="background:white">
+					var name='pepe';
+					</code></pre>
+					</li>
+					<li>
+					Funciones: <br/>
+					<pre>
+					<code class="language-javascript" style="background:white">
+					function f1 (p){...}
+	var f2 = function (p){...}
+	f2('juan');
+					</code></pre>
+					</li>
+					<li>
+					Arreglos:<br/>
+					<pre>
+					<code class="language-javascript" style="background:white">
+					var nros = [ 1, 2, 3, 4 ];
+					</code></pre>
+					</li>
+					<li style="top:0;left:50%;position:absolute">
+					Objetos:<br/>
+					<pre>
+					<code class="language-javascript" style="background:white">
+					var ejemplo = {
+	temas: "html5, css3 y JS",
+	tipo: "Presentación en html"<br/>
+	}; // (JSON)
+					</code></pre>
+					</li>
+					<li style="top:50%;left:50%;position:absolute">
+					"CLASES"
+					</li>
+					</ul>
+				</div>
+			</section>
+			
+			
+			<section style="display: block;" class="future stack"
+				data-index-h="4">
+				<section data-index-h="4" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">Definiciones de clases en JS</h4>
+					</div>
+					<div class="shape body" style="font-size:0.7em">
+					<ul>
+					<li>Como objeto literal:<br/>
+					<pre>
+					<code class="language-javascript" style="background:white">
+					var presentacion = {
+	this.titulo = 'HTML5,CSS3 Y JS';
+	this.tipo = 'Presentación';
+	this.autor = 'F.Ferrero';
+	this.getInfo = function() {
+		return this.titulo + 
+		' Dictado por: ' + this.author +
+		' tipo de clase:' this.type;
+    	};
+    }
+					alert (presentacion.getInfo());
+					</code></pre>
+					</li>
+					<li>No hay necesidad de instanciación por new (LA CLASE YA ESTÁ EN MEMORIA)</li>
+					
+					</ul>
+				</div>
+
+				</section>
+				<section data-index-h="2" data-index-v="1"
+					style="display: block; width: 100%;background:white;color:black">
+					<ul>
+					<li>Como funciones:<br/>
+					<pre>
+					<code class="language-javascript" style="background:white">
+					function Clase (title,type,author) {
+	this.titulo = title;
+	this.tipo = type;
+	this.autor = author;
+	this.getInfo = function() {
+		return this.titulo + 
+		' Dictado por: ' +	this.author +
+		' tipo de clase:' this.type;
+    	};
+    	}
+	var presentación=new Clase('HTML5,CSS3 Y JS','Presentación', 'F.Ferrero');
+	alert (presentacion.getInfo());
+					</code></pre>
+					</li>
+					
+					</ul>
+				</section>
+			</section>
+			
+			<section style="display: block;" class="future stack"
+				data-index-h="4">
+				<section data-index-h="4" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">Namespaces</h4>
+					</div>
+					<div class="shape body" style="font-size:0.7em">
+					¿Cómo evitar sobreescribir una clase existente?, por ej, de otra librería
+					<br/>
+					<div style="text-align:left">
+					<pre>
+					<code class="language-javascript" style="background:white">
+					CapabilityNetCentric= CapabilityNetCentric || {};
+	CapabilityNetCentric.Clase= function (title,type,author) {
+	this.titulo = title;this.tipo = type;this.autor = author;
+	this.getInfo = function() {
+		return this.titulo + 
+		' Dictado por: ' + this.author +
+		' tipo de clase:' this.type;
+		};
+	}
+		
+	var presentación=new CapabilityNetCentric.Clase('HTML5,CSS3 Y JS','Presentación', 'F.Ferrero');<br/>
+	alert (presentacion.getInfo());
+					</code></pre>
+					</div>
+					</div>
+
+				</section>
+			</section>
+					
+
+			<section style="display: block;" class="future stack"
+				data-index-h="3">
+				<section data-index-h="3" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">JS Clientside</h4>
+					</div>
+					<div class="shape body" style="text-align:left">
+						<a href="http://www.w3schools.com/html5/html5_canvas.asp">Canvas</a><br />
+
+						<ul>
+							<li value="1"><a href="http://www.w3schools.com/html5/html5_ref_canvas.asp">2D</a></li>
+							<li value="2">WebGL</li>
+						</ul>
+						<br /> DOM<br />
+						<ul>
+
+							<li value="1">Gráficas basadas en Node Tree (html standard)
+
+								<a target="_blank" href="http://d3js.org/"><span
+									style="text-decoration: underline; color: #1155CC;">D3</span></a>
+
+							</li>
+
+						</ul>
+
+						<ul>
+
+							<li value="2">Estrategias para armado de documento óptimo <a
+								target="_blank"
+								href="http://typeof.it/archives/effective-debugging/slides.html#9"><span
+									style="text-decoration: underline; color: #1155CC;">Reflow</span></a>
+							</li>
+
+						</ul>
+						Debugging avanzado
+					</div>
+					<div class="footnotes">
+						<a href="http://learningwebgl.com/blog/?page_id=1217">Tutorial webgl</a>
+						<br/>
+						Frameworks webgl<br/>
+						<a href="http://mrdoob.github.com/three.js/">Three.js</a>
+						<br/>
+						<a href="http://www.senchalabs.org/philogl/">PhiloGL</a>
+					</div>
+
+				</section>
+				<section data-index-h="3" data-index-v="1" style="display: block;">
+				<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://www.w3schools.com/html5/tryit.asp?filename=tryhtml5_canvas_first"></iframe>
+				
+				</section>
+				
+				<section data-index-h="2" data-index-v="1"
+					style="display: block; width: 120%; background: white">
+					<iframe style="position: absolute; width: 100%; height: 100%"
+						src="http://d3js.org/"></iframe>
+				</section>
+				<section data-index-h="3" data-index-v="1" style="display: block;">
+					<video width="100%" height="100%" controls="controls">
+						<source
+							src="http://typeof.it/archives/effective-debugging/geckoreflow-mozillaorg.mp4"
+							type="video/mp4" />
+					</video>
+					<div class="footnotes">
+					
+					<a href="http://dev.opera.com/articles/view/efficient-javascript/?page=3#reflow">Reflow 1</a>
+					<br/>
+					<a href="http://ajaxian.com/archives/when-does-javascript-trigger-reflows-and-rendering">Reflow 2</a>
+					<br/>
+					<a href="http://www.nczonline.net/blog/2009/02/03/speed-up-your-javascript-part-4/">Reflow 3</a>
+					<br/>
+					<a href="http://gent.ilcore.com/2011/03/how-not-to-trigger-layout-in-webkit.html">Reflow Webkit</a>
+					
+				</div>
+				</section>
+				<section data-index-h="3" data-index-v="1" style="display: block;background:white;color:black;">
+					Para minimizar reflows, conviene agrupar las operaciones que disparan el repaint<br/>
+					<pre>
+					<code class="language-javascript" style="background:white">
+					function paintSlow() {<br/>
+					    var left1 = $('#elem1').css('left');<br/>
+					    $('#otherElem1').css('left', left);<br/>
+					<br/>
+					    var left2 = $('#elem2').css('left');<br/>
+					    $('#otherElem2').css('left', left);<br/>
+					}<br/>
+					
+					function paintFast() {<br/>
+					    var left1 = $('#elem1').css('left');<br/>
+					    var left2 = $('#elem2').css('left');<br/>
+					<br/>
+					    $('#otherElem1').css('left', left);<br/>
+					    $('#otherElem2').css('left', left);<br/>
+					}
+					</code></pre>
+				</section>
+			</section>
+
+			<section style="display: block;" class="future stack"
+				data-index-h="4">
+				<section data-index-h="4" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">JS Clientside (Cont)</h4>
+					</div>
+					<div class="shape body">
+						Cartografía
+						<ul>
+							<li value="1">datos visualizados de manera intuitiva
+								utilizando geolocalización <a target="_blank"
+								href="http://cartodb.com/"><span
+									style="text-decoration: underline; color: #1155CC;">cartodb</span></a>
+								<a target="_blank" href="http://www.senchalabs.org/philogl/"><span
+									style="text-decoration: underline; color: #1155CC;">philogl</span></a>
+							</li>
+						</ul>
+						
+							Accesibilidad Voice-search ; <a href="http://speak-demo.herokuapp.com/">Text to speech</a>
+						<br/>
+							Frameworks de inyección de dependencias <a target="_blank"
+								href="http://documentcloud.github.com/backbone/"><span
+								style="text-decoration: underline; color: #1155CC;">Backbone</span></a>
+						
+					</div>
+
+				</section>
+				<section data-index-h="2" data-index-v="1"
+					style="display: block; width: 100%">
+					<iframe style="width: 100%; height: 100%;min-height:600px" src="http://cartodb.com/"></iframe>
+				</section>
+				<section data-index-h="2" data-index-v="2" style="display: block;">
+					<iframe style="width: 100%; height: 100%;min-height:500px"
+						src="http://www.senchalabs.org/philogl/"></iframe>
+				</section>
+				<section data-index-h="4" data-index-v="3" style="display: block;background:white;color:black">
+				Ejemplo de Chrome voice Search
+				<pre>
+					<code class="language-html" style="background:white">
+&lt;input type="text" name="s" id="s" x-webkit-speech="" onwebkitspeechchange="alert(this.value);"&gt;
+				</code></pre>
+				<br/>
+				<div style="text-align:center">
+					<input type="text" name="s" id="s" x-webkit-speech="" >
+				</div>
+				</section>
+				<section data-index-h="2" data-index-v="2" style="display: block;">
+					<iframe style="width: 100%; height: 100%;min-height:500px"
+						src="http://speak-demo.herokuapp.com/"></iframe>
+				</section>
+				<section data-index-h="4" data-index-v="4" style="display: block;">
+					<iframe style="width: 100%; height: 100%;min-height:500px"
+						src="http://documentcloud.github.com/backbone/"></iframe>
+				</section>
+			</section>
+
+			<section class="future" data-index-h="5">
+
+				<div class="shape header">
+					<h4 class="titul">Ventajas</h4>
+				</div>
+				<div class="shape body" style="text-align: right;">
+					<ul>
+
+						<li value="1">Amplia comunidad de desarrolladores avanzados.</li>
+
+						<li value="2">Experiencia de usuario rica.</li>
+
+						<li value="3">Tecnologías open source.</li>
+
+						<li value="4">Curva de aprendizaje de cortos plazos.</li>
+
+						<li value="5">Alta escalabilidad con sólo instalar o
+							actualizar el browser.</li>
+
+						<li value="6">Constante evolución</li>
+
+					</ul>
+				</div>
+			</section>
+			<section class="future" data-index-h="5">
+
+				<div class="shape header">
+					<h4 class="titul">Desventajas</h4>
+				</div>
+				<div class="shape body">
+					Evolución muy rápida;
+					<ul>
+
+							<li value="1">Difícil adaptar grandes equipos</li>
+							<li value="2">Métricas difícilmente adaptables al cambio de
+								paradigma</li>
+
+					</ul>
+					<br/>
+					Cumplir con certificaciones:
+					<br/>
+					<ul>
+
+								<li value="1">Seguridad</li>
+								<li value="2">Estándares de trazabilidad</li>
+							
+					</ul>
+				</div>
+			</section>
+			<section class="future" data-index-h="5">
+
+				<div class="shape header">
+					<h4 class="titul">JS Server Side</h4>
+				</div>
+				<div class="shape body">
+					<ul>
+						<li>Node.js</li><br/>
+
+						<li>BBDD NoSQL</li><br/>
+
+					</ul>
+				</div>
+				<div class="footnotes">
+				<a href="https://www.youtube.com/watch?v=aMFWB4wSjkM">video tutorial de node</a>
+				<br/>
+				<a href="http://www.mongodb.org/">MongoDB</a>
+				
+				</div>
+			</section>
+			<section class="future" data-index-h="5">
+
+				<div class="shape header">
+					<h4 class="titul">Ventajas</h4>
+				</div>
+				<div class="shape body">
+					Mismo lenguaje tanto clientside como server
+					<ul>
+						<li value="1">Curva de aprendizaje mínima.</li>
+						<li value="2">Rápida implementación.</li>
+						<li value="3">Reutilización de buenas prácticas.</li>
+					</ul>
+					<br /> Altamente escalable (host resolver / balanceo)<br />
+					Descentralización de datos.<br /> Bajo costo de implementación.<br />
+					Fácil aprendizaje.<br /> Creación de datos ad hoc.
+				</div>
+			</section>
+			<section class="future" data-index-h="5">
+
+				<div class="shape header">
+					<h4 class="titul">Desventajas</h4>
+				</div>
+				<div class="shape body">
+					Escasa madurez como herramienta consolidada
+					<ul>
+
+						<li value="1">Necesarios plugins para extender funcionalidad
+							no standard.</li>
+
+					</ul>
+					<br/>
+					Tuning
+					<br/>
+					
+					Poca familiaridad con el paradigma
+
+				</div>
+			</section>
+			
+			<section style="display: block;" class="future stack"
+				data-index-h="4">
+				<section data-index-h="4" data-index-v="0" style="display: block;">
+					<div class="shape header">
+						<h4 class="titul">JS Clientside (Mobile)</h4>
+					</div>
+					<div class="shape body">
+		
+							Aplicaciones híbridas con look &amp; feel símil nativos <a
+								target="_blank" href="http://incubator.apache.org/cordova/"><span
+								style="text-decoration: underline; color: #1155CC;">Cordova</span></a>
+						
+						
+					</div>
+
+				</section>
+		
+				<section data-index-h="4" data-index-v="4" style="display: block;background:white">
+					<iframe style="width: 100%; height: 100%;min-height:600px"
+						src="http://incubator.apache.org/cordova/"></iframe>
+				</section>
+			</section>
+			<section class="future" data-index-h="5">
+
+				<div class="shape header">
+					<h4 class="titul">Buenas Prácticas en JS</h4>
+				</div>
+				<div class="shape body" style="font-size:0.7em">
+					Existen Herramientas que permiten establecer un standard de calidad en el código:
+					<br>
+					Lint:<br/>
+					<a href="http://jslint.com/">JSLint</a>. Herramienta orientada a la detección de posibles problemas (Warnings).
+					<br/>
+					<a href="http://www.jshint.com/">JSHint</a>. Similar a JSLint, pero orientado a las convenciones de trabajo en grupo.
+					<br/>
+					Orientado a Testing (TDD):
+					<br/>
+					<a href="http://seleniumhq.org/">Selenium</a>Herramienta para armar test units ejecutables en todos los browsers instalados en la pc.
+					<br/>
+					<a href="https://saucelabs.com/">Sauce</a> Versión "cloud" de selenium.
+					<br/>
+				</div>
+			</section>
+			
+						<section class="future" data-index-h="5">
+
+				<div class="shape header">
+					<h4 class="titul">Buenas Prácticas en JS</h4>
+				</div>
+				<div class="shape body">
+					Minify:
+					<br/>
+					<a href="https://developers.google.com/closure/compiler/">Google Closure Compiler</a>Herramienta que transforma nuestro código en uno más optimo
+					<br/>
+					<a href="https://github.com/mishoo/UglifyJS">Uglify</a> Herramienta basada en node.js que permite, además de minimizar el código, hacer "beautify" de un código ya comprimido
+					<br/>
+					
+					Polyfills:
+					<br/>
+					<a href="http://modernizr.com/">Modernizr</a>Herramienta para agregar funcionalidad a navegadores que no la tienen.(Ej, IE y Android browser)
+					
+
+				</div>
+			</section>
+			
+						
+
+			<section class="future" data-index-h="5">
+
+				<div class="shape header">
+					<h4 class="titul">Puntos Clave</h4>
+				</div>
+				<div class="shape body">
+					Este enfoque de desarrollo provee alternativas ágiles y
+						altamente flexibles
+						<br/>
+					Es necesaria una estandarización de la forma de trabajo
+					<br/>
+					<ul>
+						
+							<li value="1">Buenas prácticas</li>
+							<li value="2">Estudio de patrones de diseño aplicables</li>
+					</ul><br/>
+					Mucha documentación<br/>
+					Comunidad de colaboración<br/>
+					Frameworks y herramientas nuevas constantemente
+				</div>
+			</section>
+			<section class="future" data-index-h="5">
+
+				<div class="shape header">
+					<h4 class="titul">Preguntas?</h4>
+				</div>
+				<div class="shape body" >
+				<span style="top:45%;position: absolute;left: 40%;font-size:4em">
+					¿?
+					</span>
+				<div style="bottom: 15px;position: absolute;text-align: center;width: 100%;">
+				<span>
+				<img src="presentacion_files/email5.gif" style="height: 1em;float:none">facundo.a.ferrero@accenture.com
+				</span>
+				<br/>
+				<span>
+				<img src="presentacion_files/twitter.png"style="height: 1em;float:none">@facundo_ferrero
+				</span>
+				</div>
+				</div>
+				
+				<div class="footnotes">
+				<a href="http://slides.html5rocks.com/#landing-slide">presentación de html5rocks.com</a>
+				</div>
+			</section>
+			
+
+		</div>
+		<aside class="controls" style="display: -webkit-box">
+			<a class="left" href="index.html#">◄</a> <a class="right  enabled"
+				href="index.html#">►</a> <a class="up" href="index.html#">▲</a> <a
+				class="down" href="index.html#">▼</a>
+		</aside>
+		<div class="progress" style="display: block;">
+			<span style="width: 0px;"></span>
+		</div>
+
+	</div>
+
+	<script src="./presentacion_files/reveal.js"></script>
+	<script src="./presentacion_files/highlight.js"></script>
+
+	<script>
+		// Parse the query string into a key/value object
+		var query = {};
+
+		Reveal.initialize({
+			// Display controls in the bottom right corner
+			controls : true,
+
+			// Display a presentation progress bar
+			progress : true,
+
+			// If true; each slide will be pushed to the browser history
+			history : true,
+
+			// Apply a 3D roll to links on hover
+			rollingLinks : true,
+
+			// UI style
+			theme : query.theme || 'default', // default/neon
+
+			// Transition style
+			transition : query.transition || 'default' // default/cube/page/concave/linear(2d)
+		});
+
+		hljs.initHighlightingOnLoad();
+	</script>
+
+	<script src="./presentacion_files/md5.js"></script>
+
+	<script src="./presentacion_files/setup.js"></script>
+
+
+	<script src="./presentacion_files/carousel.js"></script>
+
+	<!-- Shaders -->
+	<script data-src="presentacion_files/displacement_vertex.js"
+		data-name="Displacement" type="x-shader/x-vertex"></script>
+	<script data-src="presentacion_files/displacement_fragment.js"
+		data-name="Displacement" type="x-shader/x-fragment"></script>
+
+	<script data-src="presentacion_files/noise_vertex.js" data-name="Noise"
+		type="x-shader/x-vertex"></script>
+	<script data-src="presentacion_files/noise_fragment.js" data-name="Noise"
+		type="x-shader/x-fragment"></script>
+
+	<script data-src="presentacion_files/orb_vertex.js" data-name="Orb"
+		type="x-shader/x-vertex"></script>
+	<script data-src="presentacion_files/orb_fragment.js" data-name="Orb"
+		type="x-shader/x-fragment"></script>
+	<!-- End Shaders -->
+
+	<!--<script type="text/javascript" src="jscolor/jscolor.js"></script>-->
+	<script type="text/javascript" src="./presentacion_files/dat.gui.js"></script>
+
+	<script type="text/javascript" src="./presentacion_files/Detector.js"></script>
+	<script type="text/javascript" src="./presentacion_files/signals.js"></script>
+	<script type="text/javascript" src="./presentacion_files/Library.js"></script>
+	<script type="text/javascript" src="./presentacion_files/Tween.js"></script>
+	<script type="text/javascript" src="./presentacion_files/Three.js"></script>
+	<script type="text/javascript" src="./presentacion_files/ThreeExtras.js"></script>
+	<script type="text/javascript" src="./presentacion_files/Bolt.js"></script>
+	<script type="text/javascript" src="./presentacion_files/Ray.js"></script>
+	<script type="text/javascript" src="./presentacion_files/ShaderUtils.js"></script>
+
+	<script type="text/javascript"
+		src="./presentacion_files/RequestAnimationFrame.js"></script>
+ 	<script type="text/javascript"
+		src="./presentacion_files/init.js"></script> 
+
+	<div class="panel" style="display: none;">
+		
+	</div>
+	<a class="trigger" style="font-weight:bold"></a>
+
+
+
+</body>
+</html>
+
+
+
