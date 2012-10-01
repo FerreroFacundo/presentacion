@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="utf-8">
+		
+		<title>Javascript y JQuery</title>
+
+		
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		
+		<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+		
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		
+		<link rel="stylesheet" href="css/print/pdf.css" type="text/css" media="print">
+
+		
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+	
+	<body>
+		
+		<div class="reveal">
+
+			<!-- Used to fade in a background when a specific slide state is reached -->
+			<div class="state-background"></div>
+			
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section  data-markdown style="background:rgba(0, 0, 0, 0.6)">
+					#Javascript  
+					#y  
+					#JQuery
+				</section>
+
+<section data-markdown>
+		###JQuery
+		###Temario  
+-  Plugins de jquery (confección de un plugin)
+-  Eventos personalizados
+-  Mejores Prácticas para Aumentar el Rendimiento
+-  Introducción a jquery mobile  
+
+*  Material extra
+	-  Patrones de diseño aplicados a jquery
+	-  jQuery+RequireJS (gestión de dependencias )
+	-  Ejecución de callbacks con objeto $.Deferred 
+
+
+
+</section>
+<section data-markdown class="javascript">
+
+###Plugins 
+
+Un plugin de jQuery es simplemente un nuevo método que se agrega al prototype del objeto jQuery. 
+
+###Crear un plugin Básico
+
+El código para realizar una extensión básica es la siguiente:  
+
+	(function($){
+		$.fn.myNewPlugin = function() {
+			return this.each(function(){
+				// realizar algo
+			});
+	}	;
+	})(jQuery);
+
+
+Esta posee la ventaja de crear un alcance “privado”, permitiendo utilizar el signo dolar sin tener la preocupación de que otra biblioteca también este utilizando dicho signo.
+
+</section>
+<section data-markdown class="javascript">
+
+Dentro de $.fn.myNewPlugin, la palabra clave this hace referencia al objeto jQuery en donde la extensión es llamada.
+
+	var somejQueryObject = $('#something');	
+	$.fn.myNewPlugin = function() {
+		alert(this === somejQueryObject);
+	};	
+	somejQueryObject.myNewPlugin(); // muestra un alerta con 'true'
+</section>
+<section data-markdown class="javascript">
+
+la extensión a crear deberá devolver el objeto this, para permitir seguir con el encadenamiento de funciones de JQuery.
+
+	(function($){
+		$.fn.showLinkLocation = function() {
+			return this.filter('a').each(function(){
+				$(this).append(
+					' (' + $(this).attr('href') + ')'
+				);
+			});
+		};
+	})(jQuery);	
+	// Ejemplo de utilización:
+	$('a').showLinkLocation();
+</section>
+<section data-markdown class="javascript">
+
+La extensión modificará todos los enlaces dentro de la colección de elementos y les añadirá el valor de su atributo href entre paréntesis.
+	
+	<!-- Antes que la extensión sea llamada: -->
+	<a href="page.html">Foo</a>	
+	<!-- Después que la extensión es llamada: -->
+	<a href="page.html">Foo (page.html)</a>
+
+</section>
+<section data-markdown class="javascript">
+
+También es posible optimizar la extensión:
+	
+	(function($){
+		$.fn.showLinkLocation = function() {
+			return this.filter('a').append(function(){
+				  return ' (' + this.href + ')';
+			});
+		};
+	})(jQuery);
+
+El método append permite especificar una función de devolución de llamada, y el valor devuelto determinará que es lo que se añadirá a cada elemento. Note también que no se utiliza el método attr, debido a que la API nativa del DOM permite un fácil acceso a la propiedad href.
+
+</section>
+<section data-markdown class="javascript">
+
+### Escribir Plugins
+A veces, desee realizar una funcionalidad disponible en todo el código, por ejemplo, un método que pueda ser llamado desde una selección el cual realice una serie de operaciones.
+La mayoría de las extensiones son métodos creados dentro del espacio de nombres $.fn. jQuery garantiza que un método llamado sobre el objeto jQuery sea capaz de acceder a dicho objeto a través de this. En contrapartida, la extensión debe garantizar de devolver el mismo objeto recibido (a menos que se explicite lo contrario).
+
+</section>
+<section data-markdown class="javascript">
+
+####Crear una extensión para añadir y remover una clase en un elemento al suceder el evento hover
+
+	// definición de la extensión
+	(function($){
+		$.fn.hoverClass = function(c) {
+			return this.hover(
+				function() { $(this).toggleClass(c); }
+			);
+		};
+	})(jQuery);
+	
+	// utilizar la extensión
+	$('li').hoverClass('hover');
+</section>
+<section data-markdown class="javascript">
+
+###ejemplo: A Plugin Development Pattern de Mike Alsup.
+
+En dicho artículo, se desarrolla una extensión llamada $.fn.hilight, la cual provee soporte para la extensión metadata (en caso de estar presente) y provee un método descentralizado para establecer opciones globales o de instancias de la extensión.
+
+</section>
+<section data-markdown class="javascript">
+
+
+	//
+	// crear una clausura
+	//
+	(function($) {
+	  //
+	  // definición de la extensión
+	  //
+	  $.fn.hilight = function(options) {
+		debug(this);
+		// generación de las opciones principales antes de interactuar
+		var opts = $.extend({}, $.fn.hilight.defaults, options);
+		// se iteractua y formatea cada elemento
+		return this.each(function() {
+		  $this = $(this);
+		  // generación de las opciones especificas de cada elemento
+		  var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+		  // actualización de los estilos de cada elemento
+		  $this.css({
+			backgroundColor: o.background,
+			color: o.foreground
+		  });
+		  var markup = $this.html();
+		  // se llama a la función de formateo
+		  markup = $.fn.hilight.format(markup);
+		  $this.html(markup);
+		});
+	  };
+</section>
+
+<section data-markdown class="javascript">
+
+
+	  //
+	  // función privada para realizar depuración
+	  //
+	  function debug($obj) {
+		if (window.console && window.console.log)
+		  window.console.log('hilight selection count: ' + $obj.size());
+	  };
+	  //
+	  // definir y exponer la función de formateo
+	  //
+	  $.fn.hilight.format = function(txt) {
+		return '<strong>' + txt + '</strong>';
+	  };
+	  //
+	  // opciones predeterminadas
+	  //
+	  $.fn.hilight.defaults = {
+		foreground: 'red',
+		background: 'yellow'
+	  };
+	//
+	// fin de la clausura
+	//
+	})(jQuery);
+
+</section>
+<section>
+	<iframe src="ejemplo.html" style="height:100%;width:100%;color:white;font-size:30px;position:absolute"></iframe>
+</section>
+
+<section data-markdown class="javascript">
+
+###Eventos Personalizados
+
+
+Todos estamos familiarizados con los eventos básicos — click, mouseover, focus, blur, submit, etc. — que surgen a partir de la interacción del usuario con el navegador.
+Los eventos personalizados permiten conocer el mundo de la programación orientada a eventos. Los eventos personalizados ofrecen una nueva forma de pensar la programación en JavaScript. En lugar de enfocarse en el elemento que ejecuta una acción, los eventos personalizados ponen la atención en el elemento en donde la acción va a ocurrir. Este concepto brinda varios beneficios
+</section>
+<section data-markdown class="javascript">
+-  Los comportamientos del elemento objetivo pueden ser ejecutados por diferentes elementos utilizando el mismo código.
+-  Los comportamientos pueden ser ejecutados en múltiples, similares elementos objetivos a la vez.
+-  Los comportamientos son asociados de forma más clara con el elemento objetivo, haciendo que el código sea más fácil de leer y mantener.
+
+</section>
+<section>
+	<iframe src="twitter.html" style="width:100%;height:100%;position:absolute" ></iframe>
+</section>
+<section>
+	<iframe src="ejemplo2.html" style="width:100%;height:100%;position:absolute"></iframe>
+</section>
+<section data-markdown class="javascript">
+
+##Recapitulación
+-  $.fn.on y $.fn.trigger  
+
+	El método $.fn.on toma como argumentos un tipo de evento y una función controladora de evento. Opcionalmente, puede recibir información asociada al evento como segundo argumento, desplazando como tercer argumento a la función controladora de evento. Cualquier información pasada estará disponible a la función controladora a través de la propiedad data del objeto del evento. A su vez, la función controladora recibe el objeto del evento como primer argumento.
+</section>
+<section data-markdown class="javascript">
+##Recapitulación: 
+•	El método $.fn.trigger toma como argumentos el tipo de evento y opcionalmente, puede tomar un arreglo con valores. Estos valores serán pasados a la función controladora de eventos como argumentos luego del objeto del evento.
+A continuación se muestra un ejemplo de utilización de $.fn.on y $.fn.trigger en donde se utiliza información personalizada en ambos casos:
+
+	$(document).on('myCustomEvent', { foo : 'bar' }, function(e, arg1, arg2) {
+		console.log(e.data.foo); // 'bar'
+		console.log(arg1); // 'bim'
+		console.log(arg2); // 'baz'
+	});
+	
+	$(document).trigger('myCustomEvent', [ 'bim', 'baz' ]);
+
+
+</section>
+<section data-markdown class="javascript">
+
+
+### Mejores Prácticas para Aumentar el Rendimiento
+
+### Optimización de Selectores
+
+### Selectores basados en ID
+Siempre es mejor comenzar las selecciones con un ID.
+
+	// rápido
+	$('#container div.robotarm');
+	
+	// super-rápido
+	$('#container').find('div.robotarm');
+
+El ejemplo que utiliza $.fn.find es más rápido debido a que la primera selección utiliza el motor de selección interno Sizzle — mientras que la selección realizada únicamente por ID utiliza document.getElementById(), el cual es extremadamente rápido debido a que es una función nativa del navegador.
+
+</section>
+<section data-markdown class="javascript">
+
+### Especificidad
+Ser especifico para el lado derecho de la selección y menos específico para el izquierdo.
+	
+	// no optimizado
+	$('div.data .gonzalez');
+	
+	// optimizado
+	$('.data td.gonzalez');
+
+Use en lo posible etiqueta.clase del lado derecho de la selección, y solo etiqueta o .clase en la parte izquierda.
+
+	$('.data table.attendees td.gonzalez');
+	
+	// mucho mejor: eliminar la parte media de ser posible
+	$('.data td.gonzalez');
+
+La segunda selección tiene mejor rendimiento debido a que atraviesa menos capas para buscar el elemento.
+</section>
+<section data-markdown class="javascript">
+
+### Evitar el Selector Universal
+Selecciones en donde se especifica de forma implícita o explícita una selección universal puede resultar muy lento.
+
+	$('.buttons > *');	  // muy lento
+	$('.buttons').children();  // mucho mejor
+	
+	$('.gender :radio');	   // selección universal implícita
+	$('.gender *:radio');	  // misma forma, pero de forma explícita
+	$('.gender input:radio');  // mucho mejor
+</section>
+<section data-markdown class="javascript">
+
+### Utilizar la Delegación de Eventos
+La delegación de eventos permite vincular un controlador de evento a un elemento contenedor (por ejemplo, una lista desordenada) en lugar de múltiples elementos contenidos (por ejemplo, los ítems de una lista). jQuery hace fácil este trabajo a través de $.fn.live y$.fn.delegate. En lo posible, es recomendable utilizar$.fn.delegate en lugar de $.fn.live, ya que elimina la necesidad de una selección y su contexto explícito reduce la carga en aproximadamente un 80%.
+Además, la delegación de eventos permite añadir nuevos elementos contenedores a la página sin tener que volver a vincular sus controladores de eventos.
+
+</section>
+<section data-markdown class="javascript">
+
+	// mal (si existen muchos items en la lista)
+	$('li.trigger').click(handlerFn);
+	
+	// mejor: delegación de eventos con $.fn.live
+	$('li.trigger').live('click', handlerFn);
+	
+	// mucho mejor: delegación de eventos con $.fn.delegate
+	// permite especificar un contexto de forma fácil
+	$('#myList').delegate('li.trigger', 'click', handlerFn);
+</section>
+<section data-markdown class="javascript">
+
+###Separar Elementos para Trabajar con Ellos
+En lo posible, hay que evitar la manipulación del DOM. Para ayudar con este propósito, a partir de la versión 1.4, jQuery introduce $.fn.detach el cual permite trabajar elementos de forma separada del DOM para luego insertarlos.
+
+	var $table = $('#myTable');
+	var $parent = $table.parent();	
+	$table.detach();
+	// ... se añaden muchas celdas a la tabla
+	$parent.append(table);  
+</section>
+<section data-markdown class="javascript">
+
+
+### Utilizar Estilos en Cascada para Cambios de CSS en Varios Elementos
+Si va a cambiar el CSS en más de 20 elementos utilizando $.fn.css, considere realizar los cambios de estilos añadiéndolos en una etiqueta style. De esta forma se incrementa un 60% el rendimiento.
+	
+	// correcto hasta 20 elementos, lento en más elementos
+	$('a.swedberg').css('color', '#asd123');
+	$('<style type="text/css">a.swedberg { color : #asd123 }</style>')
+		.appendTo('head');
+
+</section>
+<section data-markdown class="javascript">
+
+###Utilizar $.data en Lugar de $.fn.data
+Utilizar $.data en un elemento del DOM en lugar de $.fn.data en una selección puede ser hasta 10 veces más rápido. Antes de realizarlo, este seguro de comprender la diferencia entre un elemento DOM y una selección jQuery.
+	
+	// regular
+	$(elem).data(key,value);	
+	// 10 veces más rápido
+	$.data(elem,key,value);
+
+</section>
+<section data-markdown class="javascript">
+
+### No Actuar en Elementos no Existentes
+jQuery no dirá si esta tratando de ejecutar código en una selección vacía.
+
+	// MAL: el código a continuación ejecuta tres funciones
+	// sin comprobar si existen elementos
+	// en la selección
+	$('#nosuchthing').slideUp();	
+	// Mejor
+	var $mySelection = $('#nosuchthing');
+	if ($mySelection.length) { $mySelection.slideUp(); }	
+	// MUCHO MEJOR: añadir una extensión doOnce
+	jQuery.fn.doOnce = function(func){
+		this.length && func.apply(this);
+		return this;	
+	}   
+	$('li.cartitems').doOnce(function(){   
+		// realizar algo	
+	});
+
+Esto es especialmente aplicable para widgets de jQuery UI; poseen mucha carga incluso cuando la selección no contiene elementos.
+
+</section>
+<section data-markdown class="javascript">
+
+###Condicionales
+	// antiguo
+	if (type == 'foo' || type == 'bar') { ... }	
+	// mejor
+	if (/^(foo|bar)$/.test(type)) { ... }	
+	// búsqueda en objeto literal
+	if (({ foo : 1, bar : 1 })[type]) { ... }
+
+</section>
+<section data-markdown class="javascript">
+
+###Jquery mobile
+
+ jQuery Mobile no se trata de un nuevo framework creado desde cero. sino que el concepto es similar al de un plugin
+ Aquellas personas que ya conocen jQuery no van a tener que aprender nada nuevo.
+
+Al incluir jQuery Mobile tu código HTML básico será optimizado para realizar diversos comportamientos dinámicos en los navegadores móviles, de manera automática. 
+</section>
+<section data-markdown class="javascript">
+Dispone de diversas herramientas CSS
+ -  con este framework tus componentes de formularios se estilizarán de manera automática, sustituyendo los elementos nativos de los navegadores de dispositivos móviles. 
+ -  cuenta conun pequeño framework CSS para poder hacer cosas como la maquetación a partir de un grid.
+
+-	Creado sobre jQuery con arquitectura de jQueryUI
+
+-	Está desarrollado para trabajar con HTML5: de hecho, estamos obligados a hacer páginas HTML5 para aprovechar todas las características del framework.
+
+</section>
+<section data-markdown class="javascript">
+
+
+-	ajax más sencillo. el framework detecta que puede hacer una conexión Ajax en lugar de una convencional, lo hace automática por Ajax. Y eso es solo un ejemplo, también son automáticas las transiciones entre páginas, la personalización del aspecto de la página, etc.
+-	Preparado para dispositivos táctiles: Los dispositivos táctiles tienen cambios en la gestión de eventos y jQuery Mobile nos facilita la labor de adaptarnos a ellos.
+
+</section>
+<section data-markdown class="javascript">
+
+-	Personalización de temas: Igual que ocurría con las jQueryUI, el jQuery Mobile podemos elegir entre varios temas gráficos ya listos para aplicar al aspecto de nuestra página. Además, podemos crear nuestros propios temas personalizados.
+
+- Compatible con el mayor número de plataformas
+
+</section>
+<section data-markdown>
+ 
+No obstante, cabe señalar existen diversos grados de compatibilidad para cada sistema, o mejor dicho, para cada navegador dentro de cada familia de dispositivos. En la documentación del framework, en la sección de Supported Platforms veremos que el grado de compatibilidad está dividido en tres niveles distintos, desde Grado-A (donde están la mayoría navegadores para iOS y Android, así como BlackBerry, Palm WebOS, los navegadores de ordenadores de escritorio, etc.) a Grado-B (donde encontramos a Symbian, Opera Mini 5.0 y 6.0 para iOS o Balckberry 5.0) o Grado-C (con el resto de los smartphones, entre los que se encuentra Windows Mobile o Blackberry 4).
+
+</section>
+<section data-markdown >
+
+Solo se ha dejado sin soporte deliberadamente en esta versión 1.0 del framework el sistema Samsung Bada (El sistema operativo propietario de Samsumg para smartphones), aunque dicen que probablemente funcione relativamente bien incluso sin haberla probado, pues todavía no hay dispositivos o emuladores.
+
+</section>
+<section data-markdown >
+
+http://jquerymobile.com
+
+•	Además, una referencia interesante a un sitio donde se puede ver una galería de sitios creados con jQuery Mobile.
+
+
+<a href="http://codiqa.com/embed/editor">http://codiqa.com/embed/editor</a>
+
+<a href="http://jquerymobile.com/themeroller/">http://jquerymobile.com/themeroller/</a>
+
+<a href="http://jquerymobile.com/demos/1.1.1/docs/pages/page-transitions.html">http://jquerymobile.com/demos/1.1.1/docs/pages/page-transitions.html</a>
+</section>
+<section>
+	<iframe src="http://codiqa.com/embed/editor" style="width:100%;height:100%;position:absolute"></iframe>
+</section>
+
+<section>
+	<iframe src="http://jquerymobile.com/themeroller/" style="width:100%;height:100%;position:absolute"></iframe>
+</section>
+
+<section>
+	<iframe src="http://jquerymobile.com/demos/1.1.1/docs/pages/page-transitions.html" style="width:100%;height:100%;position:absolute"></iframe>
+</section>
+
+<section data-markdown class="javascript">
+
+# Patrones de diseño aplicados a jquery
+</section>
+<section data-markdown class="javascript">
+
+### El Patrón Modular
+El patrón modular supera algunas limitaciones del objeto literal, ofreciendo privacidad para variables y funciones, exponiendo a su vez (si se lo desea) una API pública.
+
+	var feature =(function() {	
+		// variables y funciones privadas
+		var privateThing = 'secret',
+			publicThing = 'not secret',	
+			changePrivateThing = function() {
+				privateThing = 'super secret';
+			},	
+			sayPrivateThing = function() {
+				console.log(privateThing);
+				changePrivateThing();
+			};	
+		// API publica
+		return {
+			publicThing : publicThing,
+			sayPrivateThing : sayPrivateThing
+		}	
+	})();	
+	feature.publicThing; // registra 'not secret'	
+	feature.sayPrivateThing();
+	// registra 'secret' y cambia el valor
+	// de privateThing 
+</section>
+<section data-markdown class="javascript">
+
+En el ejemplo, se autoejecuta una función anónima la cual devuelve un objeto. Dentro de la función, se definen algunas variables. Debido a que ellas son definidas dentro de la función, desde afuera no se tiene acceso a menos que se pongan dentro del objeto que se devuelve. Esto implica que ningún código fuera de la función tiene acceso a la variable privateThing o a la función sayPrivateThing. Sin embargo, sayPrivateThing posee acceso a privateThing y changePrivateThing debido a estar definidos en el mismo alcance.
+</section>
+<section data-markdown class="javascript">
+El patrón es poderoso debido a que permite tener variables y funciones privadas, exponiendo una API limitada consistente en devolver propiedades y métodos de un objeto.
+A continuación se muestra una revisión del ejemplo visto anteriormente, con las mismas características, pero exponiendo un único método público del modulo, showItemByIndex().
+Utilizar el patrón modular para una funcionalidad jQuery
+
+</section>
+<section data-markdown class="javascript">
+
+	$(document).ready(function() {
+		var feature = (function() {	
+			var $items = $('#myFeature li'),
+				$container = $('<div class="container"></div>'),
+				$currentItem,	
+				urlBase = '/foo.php?item=',	
+				createContainer = function() {
+					var $i = $(this),
+						$c = $container.clone().appendTo($i);	
+					$i.data('container', $c);
+				},	
+				buildUrl = function() {
+					return urlBase + $currentItem.attr('id');
+				},	
+				showItem = function() {
+					var $currentItem = $(this);
+					getContent(showContent);
+				},	
+				showItemByIndex = function(idx) {
+					$.proxy(showItem, $items.get(idx));
+				},	
+				getContent = function(callback) {
+					$currentItem.data('container').load(buildUrl(), callback);
+				},
+</section>
+<section data-markdown class="javascript">
+
+
+				showContent = function() {
+					$currentItem.data('container').show();
+					hideContent();
+				},	
+				hideContent = function() {
+					$currentItem.siblings()
+						.each(function() {
+							$(this).data('container').hide();
+					});
+				};	
+			$items
+				.each(createContainer)
+				.click(showItem);	
+			return { showItemByIndex : showItemByIndex };
+		})();	
+		feature.showItemByIndex(0);
+	}); 
+
+</section>
+<section data-markdown class="javascript">
+
+### Gestión de Dependencias
+
+Cuando un proyecto alcanza cierto tamaño, comienza a ser difícil el manejo de los módulos de una aplicación, ya que es necesario saber ordenarlos de forma correcta, y comenzar a combinarlos en un único archivo para lograr la menor cantidad de peticiones. También es posible que se quiera cargar código “al vuelo” luego de la carga de la página.
+
+RequireJS posee un sistema modular, que sin embargo, no es necesario seguirlo para obtener sus beneficios. El formato modular de RequireJS permite la escritura de código encapsulado, incorporación de internacionalización (i18n) a los paquetes (para permitir utilizarlos en diferentes lenguajes) e incluso la utilización de servicios JSONP como dependencias.
+
+</section>
+<section data-markdown class="javascript">
+
+### Utilizar RequireJS con jQuery
+
+	<!DOCTYPE html>
+		<html>
+			<head>
+				<title>jQuery+RequireJS Sample Page</title>
+				<script src="scripts/require-jquery.js"></script>
+				<script>require(["app"]);</script>
+			</head>
+			<body>
+				<h1>jQuery+RequireJS Sample Page</h1>
+			</body>
+		</html> 
+
+</section>
+<section data-markdown class="javascript">
+
+La llamada a require(["app"]) le dice a RequireJS que cargue el archivo scripts/app.js. RequireJS cargará cualquier dependencia pasada a require() sin la extensión .js desde el mismo directorio que en que se encuentra el archivo require-jquery.js, aunque también es posible especificar la ruta de la siguiente forma:
+
+		<script>require(["scripts/app.js"]);</script>
+
+</section>
+<section data-markdown class="javascript">
+
+El archivo app.js es otra llamada a require.js para cargar todos los archivos necesarios para la aplicación. En el siguiente ejemplo, app.js solicita dos extensiones jquery.alpha.js y jquery.beta.js (no son extensiones reales, solo ejemplos). Estas extensiones están en la misma carpeta que require-jquery.js:
+
+	//Un simple archivo JavaScript con dependencias
+	require(["jquery.alpha", "jquery.beta"], function() {
+		//las extensiones jquery.alpha.js y jquery.beta.js han sido cargadas.
+		$(function() {
+			$('body').alpha().beta();
+		});
+	});
+
+</section>
+<section data-markdown class="javascript">
+
+### Crear Módulos Reusables con RequireJS
+RequireJS hace que sea fácil definir módulos reusables a través de require.def(). Un modulo RequireJS puede tener dependencias que pueden ser utilizadas para definir un módulo, además de poder devolver un valor — un objeto, una función, u otra cosa — que puede ser incluso utilizado otros módulos.
+Si el módulo no posee ninguna dependencia, tan solo se debe especificar el nombre como primer argumento derequire.def(). El segundo argumento es un objeto literal que define las propiedades del módulo. 
+
+</section>
+<section data-markdown class="javascript">
+
+Definición de un módulo RequireJS que no posee dependencias
+	
+	require.def("my/simpleshirt",
+		{
+			color: "black",
+			size: "unisize"
+		}
+	);
+
+</section>
+<section data-markdown class="javascript">
+
+El ejemplo debe ser guardado en el archivo my/simpleshirt.js.
+Si el modulo posee dependencias, es posible especificarlas en el segundo argumento de require.def() a través de un arreglo) y luego pasar una función como tercer argumento. Esta función será llamada para definir el módulo una vez cargadas todos las dependencias. Dicha función recibe los valores devueltos por las dependencias como un argumento (en el mismo orden en que son requeridas en el arreglo) y luego la misma debe devolver un objeto que defina el módulo.
+</section>
+<section data-markdown class="javascript">
+
+Definición de un módulo RequireJS con dependencias
+
+	require.def("my/shirt",
+		["my/cart", "my/inventory"],
+		function(cart, inventory) {
+			//devuelve un objeto que define a "my/shirt"
+			return {
+				color: "blue",
+				size: "large"
+				addToCart: function() {
+					inventory.decrement(this);
+					cart.add(this);
+				}
+			}
+		}
+	);
+
+</section>
+<section data-markdown class="javascript">
+
+En este ejemplo, el modulo my/shirt es creado. Este depende de my/cart y my/inventory. En el disco, los archivos están estructurados de la siguiente forma:
+my/cart.js
+	my/inventory.js
+	my/shirt.js
+La función que define my/shirt no es llamada hasta que my/cart y my/inventory hayan sido cargadas, y dicha función recibe como argumentos a los módulos como cart y inventory. El orden de los argumentos de la función debe coincidir con el orden en que las dependencias se requieren en el arreglo. El objeto devuelto define el módulo my/shirt. Definiendo los módulos de esta forma, my/shirt no existe como un objeto global, ya que múltiples módulos pueden existir en la página al mismo tiempo.
+Los módulos no tienen que devolver un objeto; cualquier tipo de valor es permitido.
+</section>
+<section data-markdown class="javascript">
+
+Definición de un módulo RequireJS que devuelve una función
+
+	require.def("my/title",
+			["my/dependency1", "my/dependency2"],
+		function(dep1, dep2) {
+			// devuelve una función para definir "my/title".
+			// Este devuelve o establece
+			// el titulo de la ventana
+			return function(title) {
+				return title ? (window.title = title) : window.title;
+			}
+		}
+	);
+Solo un módulo debe ser requerido por archivo JavaScript.
+</section>
+<section data-markdown class="javascript">
+
+### Optimizar el Código con las Herramientas de RequireJS
+[Ejemplo completo](http://requirejs.org/docs/jquery.html "Ejemplo completo ")
+
+
+</section>
+
+<section data-markdown class="javascript">
+
+###Funciones y ejecuciones diferidas a través del objeto $.Deferred
+
+A partir de la versión 1.5 de jQuery, la biblioteca introdujo una nueva utilidad: El objeto diferido $.Deferred. introduce nuevas formas para la invocación y ejecución de las funciones de devolución (callbacks)
+
+[Definición completa](http://api.jquery.com/category/deferred-object/ "Ejemplo completo ")
+
+
+</section>
+<section data-markdown class="javascript">
+
+### El objeto diferido y Ajax
+
+Manera tradicional de utilizar el método $.ajax  
+
+	$.ajax({
+	   // la URL para la petición
+	   url : 'post.php',	
+	   // funciónes de devolución a ejecutar
+	   // en caso que la petición haya sido
+	   // satisfactoria, con error y/o completada
+	   success : function(data) {
+		   alert('Petición realizada satisfactoriamente');
+	   },
+	   error : function(jqXHR, status, error) {
+		   alert('Disculpe, existió un problema');
+	   },
+	   complete : function(jqXHR, status) {
+		   alert('Petición realizada');
+	   }
+	});
+
+</section>
+<section data-markdown class="javascript">
+
+las callbacks son configuradas dentro del mismo objeto $.ajax. Esta manera  no permite desacoplar las funciones de devolución de la misma petición Ajax. 
+En grandes aplicaciones esto puede llegar a ser un problema.
+</section>
+<section data-markdown class="javascript">
+
+###El objeto diferido en una petición Ajax
+	// dentro de una variable se define 
+	// la configuración de la petición ajax
+	var ajax = $.ajax({
+		url : 'post.php'
+	});	
+	// a través del método done() ejecutamos
+	// la función de devolución satisfactoria (sucess)
+	ajax.done(function(){
+		alert('Petición realizada satisfactoriamente');
+	});	
+	// a través del método fail() ejecutamos
+	// la función de devolución de error (error)
+	ajax.fail(function(){
+		alert('Disculpe, existió un problema');
+	});	
+	// a través del método always() ejecutamos
+	// la función de devolución de petición completada (complete)
+	ajax.always(function(){
+		alert('Petición realizada');
+	});
+</section>
+<section data-markdown class="javascript">
+
+A través de los métodos deferred.done, deferred.fail y deferred.always es posible desacoplar las funciones de devolución 
+
+Notar que en en ningún momento se llama al objeto diferido $.Deferred. Esto es porque jQuery ya lo incorpora implicitamente dentro del manejo del objeto $.ajax. 
+
+</section>
+<section data-markdown class="javascript">
+
+###Colas de funciones de devolución en una petición Ajax
+	// definición de la petición Ajax
+	var ajax = $.ajax({
+		url : 'post.php'
+	});	
+	// primera función de devolución a ejecutar
+	ajax.done(function(){
+		alert('Primera función de devolución en caso satisfactorio');
+	});	
+	// segunda función de devolución a ejecutar 
+	// inmediatamente después de la primera
+	ajax.done(function(){
+		alert('Segunda función de devolución en caso satisfactorio');
+	});	
+	// si el usuario hace click en #element se
+	// agrega una tercera función de devolución
+	$('#element').click(function(){	
+		ajax.done(function(){
+			alert('Tercera función de devolución si el usuario hace click');
+		});	
+	});	
+	// en caso que exista un error se define otra
+	// función de devolución
+	ajax.fail(function(){
+		alert('Disculpe, existió un problema');
+	});
+</section>
+<section data-markdown class="javascript">
+
+Al ejecutarse la petición Ajax, y en caso de que ésta haya sido satisfactoria, se ejecutan dos funciones de devolución, una detrás de la otra. Sin embargo si el usuario hace click en #element se agrega una tercera función de devolución, la cual también se ejecuta inmediatamente, sin volver a realizar la petición Ajax. Esto es porque el objeto diferido (que se encuentra implicitamente en la variable ajax) ya tiene información asociada sobre que la petición Ajax se realizó correctamente.
+
+</section>
+<section data-markdown class="javascript">
+
+###deferred.then
+Otra manera de utilizar los métodos deferred.done y deferred.fail es a través de deferred.then
+permite definir en un mismo bloque de código las funciones de devolución a suceder en los casos satisfactorios y erroneos.
+Utilización del método deferred.then
+	
+	// definición de la petición Ajax
+	var ajax = $.ajax({
+		url : 'post.php'
+	});	
+	// el método espera dos funciones de devolución
+	ajax.then(	
+		// la primera es la función de devolución satisfactoria
+		function(){ 
+			alert('Petición realizada satisfactoriamente'); 
+		},	
+		// la segunda es la función de devolución erronea
+		function(){ 
+			alert('Disculpe, existió un problema');
+		}	
+	);
+
+</section>
+<section data-markdown class="javascript">
+
+###Creación de objetos diferidos con $.Deferred
+Así como es posible desacoplar las funciones de devolución en una petición Ajax, también es posible realizarlo en otras funciones utilizando de manera explícita el objeto $.Deferred.
+Por ejemplo, una función que verifica si un número es par, de la manera tradicional puede escribirse de la siguiente manera:
+
+-Función sin utilizar el objeto $.Deferred
+
+
+	// función que calcula si un número entero es par o impar
+	var isEven = function(number) {	
+		if (number%2 == 0){
+			return true;
+		} else {
+			return false;
+		}	
+	}	
+	// si es par registra un mensaje,
+	// en caso contrario registra otro
+	if (isEven(2)){
+		console.log('Es par');
+	} else {
+		console.log('Es impar');
+	}
+
+</section>
+<section data-markdown class="javascript">
+
+Utilizando el objeto $.Deferred, el mismo ejemplo puede reescribirse de la siguiente forma:
+- Función utilizando el objeto $.Deferred
+
+	// función que calcula si un número entero es par o impar
+	var isEven = function(number) {	
+		// guarda en una variable al objeto $.Deferred()
+		var dfd = $.Deferred();	
+		// si es par, resuelve al objeto utilizando deferred.resolve,
+		// caso contrario, lo rechaza utilizando deferred.reject
+		if (number%2 == 0){
+			dfd.resolve();
+		} else {
+			dfd.reject();
+		}	
+		// devuelve al objeto diferido con su estado definido
+		return dfd.promise();	
+	}	
+</section>
+<section data-markdown class="javascript">
+
+	// con deferred.then se manejan las funciones de devolución
+	// en los casos que el numero sea par o impar
+	isEven(2).then(	
+		// la primera es la función de devolución satisfactoria
+		function(){ 
+			console.log('Es par');
+		},	
+		// la segunda es la función de devolución erronea
+		function(){ 
+			console.log('Es impar');
+		}	
+	);
+
+Los métodos deferred.resolve y deferred.reject permiten definir el estado interno del objeto$.Deferred(). Esta definición es permanente, es decir, no es posible modificarla después y es lo que permite manejar el comportamiento y ejecución de las funciones de devolución posteriores para cada uno de los casos.
+Notar que la función isEven devuelve el método deferred.promise. El mismo es una versión del objeto diferido, pero que sólo permite leer su estado o añadir nuevas funciones de devolución.
+</section>
+<section data-markdown class="javascript">
+
+
+Los métodos deferred.resolve y deferred.reject además permiten devolver valores para ser utilizados por las funciones de devolución.
+Función con deferred.resolve y deferred.reject devolviendo valores reutilizables
+	
+	// función que calcula si un numero entero es par o impar
+	var isEven = function(number) {	
+		var dfd = $.Deferred();	
+		// resuelve o rechaza al objeto utilizando
+		// y devuelve un texto con el resultado
+		if (number%2 == 0){
+			dfd.resolve('El número ' + number + ' es par');
+		} else {
+			dfd.reject('El número ' + number + ' es impar');
+		}	
+		// devuelve al objeto diferido con su estado definido
+		return dfd.promise();	
+	}	
+	isEven(2).then(	
+		function(result){ 
+			console.log(result); // Registra 'El número 2 es par'
+		},	
+		function(result){ 
+			console.log(result);
+		}	
+	);
+</section>
+<section data-markdown class="javascript">
+
+-Es posible determinar el estado de un objeto diferido a través del método deferred.state. El mismo devuelve un string con alguno de estos tres valores: pending, resolved o rejected. Para más detalles sobre deferred.state, puede consultar http://api.jquery.com/deferred.state/.
+</section>
+<section data-markdown class="javascript">
+
+###deferred.pipe
+Existen casos en que se necesita modificar el estado de un objeto diferido o filtrar la información que viene asociada. Para estos casos existe deferred.pipe. Su funcionamiento es similar a deferred.then, con la diferencia que deferred.pipe devuelve un nuevo objeto diferido modificado a través de una función interna.
+
+</section>
+<section data-markdown class="javascript">
+
+Función filtrando valores utilizando deferred.pipe
+
+	// función que calcula si un número entero es par o impar
+	var isEven = function(number) {	
+		var dfd = $.Deferred();	
+		if (number%2 == 0){
+			dfd.resolve(number);
+		} else {
+			dfd.reject(number);
+		}	
+		return dfd.promise();	
+	}	
+	// arreglo con una serie de números pares e impares
+	var numbers = [0, 2, 9, 10, 5, 8, 12];	
+	// a través de deferred.pipe se pregunta si número se encuentra
+	// dentro del arreglo numbers
+	isEven(2).pipe(	
+		function(number){	
+			// crea un nuevo objeto diferido
+			var dfd = $.Deferred();	
+			if($.inArray(number, numbers) !== -1){ 
+				dfd.resolve();
+			} else {
+				dfd.reject();
+			}	
+			// devuelve un nuevo objeto diferido
+			return dfd.promise();	
+		}
+</section>
+<section data-markdown class="javascript">
+
+	).then(	
+		function(){
+			// al estar dentro del arreglo numbers y ser par,
+			// se registra este mensaje
+			console.log('El número es par y se encuentra dentro de numbers');
+		},	
+		function(){
+			console.log('El número es impar o no se encuentra dentro de numbers');
+		}	
+	);
+
+Para más detalles sobre deferred.pipe, puede consultar http://api.jquery.com/deferred.pipe/.
+
+</section>
+<section data-markdown class="javascript">
+
+###$.when
+El método $.when permite ejecutar funciones de devolución, cuando uno o más objetos diferidos posean algun estado definido.
+Un caso común de utilización de $.when es cuando se quiere verificar que dos peticiones Ajax separadas se han realizado.
+
+</section>
+<section data-markdown class="javascript">
+
+	Utilización de $.when
+	// primera petición ajax
+	var comments = $.ajax({
+		url : '/echo/json/'
+	});	
+	// segunda petición ajax
+	var validation = $.ajax({
+		url : '/echo/json/'
+	});	
+	// cuando las dos peticiones sean realizadas
+	// ejecuta alguna función de devolución definida
+	// dentro de deferred.then
+	$.when(comments, validation).then(
+		function(){
+			alert('Peticiones realizadas');
+		},
+		function(){
+			alert('Disculpe, existió un problema');
+		}
+	);
+
+Para más detalles sobre $.when, puede consultar http://api.jquery.com/jQuery.when/.
+
+</section>
+<section data-markdown class="javascript">
+
+###extend()
+
+- ofrece una utilidad para mezclar mezclar varios objetos en uno
+
+jQuery.extend(x, y, z);
+O bien:
+$.extend(x, y, z);
+Estos dos ejemplos de código harían exactamente lo mismo, colocar en el objeto "x" todos los contenidos de los objetos "x", "y" y "z". El método extend() puede recibir cualquier número de parámetros y siempre pondrá todos los contenidos de los objetos en el objeto recibido en el primer parámetro.
+
+</section>
+<section data-markdown class="javascript">
+
+###Ejemplo de extend() de jQuery
+
+	var a = {
+		uno: "hola",
+		otro: "adios"
+	};
+	var b = {
+		uno: "otra cosa",
+		dos: "loquesea"
+	};
+	jQuery.extend(a, b);
+
+</section>
+<section data-markdown class="javascript">
+
+En este caso extend() recibe dos parámetros, que son dos objetos. Por tanto, mete las opciones del segundo objeto en el primero. Después de la llamada a extend(), el objeto del primer parámetro tendrá sus propiedades más las propiedades del objeto del segundo parámetro. Si alguna de las opciones tenía el mismo nombre, al final el valor que prevalece es el que había en el segundo parámetro.
+
+"a" tendrá estos datos:
+
+	{
+		uno: "otra cosa",
+		otro: "adios",
+		dos: "loquesea"
+	}
+
+-muy usado en plugins
+
+</section>
+
+
+<section>
+	
+	<h3>¿Preguntas?</h3>
+	<span>
+	<img src="textures/email5.gif" style="height: 1em;float:none">facundo.a.ferrero@accenture.com
+</span>
+<br/>
+<span>
+<img src="textures/twitter.png"style="height: 1em;float:none">@facundo_ferrero
+</span>
+<br/><br/>
+<h4>Bibliografía:</h4>
+<div><a href="http://jqfundamentals.com/book/">JQuery fundamentals</a>- Rebecca Murphey</div>
+<br> 
+<div>Traducción a Castellano: <a href="http://librojquery.com/">librojquery.com</a></div>
+<div>Fuentes del libro: <a href="http://github.com/rmurphey/jqfundamentals">(Github)</a></div>
+</section>
+			</div>
+
+			<!-- The navigational controls UI -->
+			<aside class="controls">
+				<a class="left" href="#">&#x25C4;</a>
+				<a class="right" href="#">&#x25BA;</a>
+				<a class="up" href="#">&#x25B2;</a>
+				<a class="down" href="#">&#x25BC;</a>
+			</aside>
+
+			<!-- Presentation progress bar -->
+			<div class="progress"><span></span></div>
+			
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				
+				theme: Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+					{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+				]
+			});
+			
+		</script>
+
+		<script src="js/three.min.js"></script>
+		<script src="js/loaders/OBJLoader.js"></script>
+		<script src="js/ShaderGodRays.js"></script>
+
+		<script src="js/Detector.js"></script>
+		<script src="js/Stats.js"></script>
+
+
+		<script>
+
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+			var container, stats;
+			var camera, scene, renderer, materialDepth;
+
+			var treeMesh, sphereMesh, accMesh;
+
+			var projector = new THREE.Projector();
+
+			var sunPosition = new THREE.Vector3( 0, 1000, -1000 );
+			var screenSpacePosition = new THREE.Vector3();
+
+			var mouseX = 0, mouseY = 0;
+
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+
+			var margin = 100;
+			var height = window.innerHeight*1.1;
+
+			var postprocessing = { enabled : true };
+
+			var orbitRadius = 200;
+
+			var bgColor = 0x000511;
+			var sunColor = 0xffee00;
+
+			init();
+			animate();
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				//
+
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / height, 1, 3000 );
+				camera.position.z = 200;
+
+				scene = new THREE.Scene();
+
+				//
+
+				// todo - try with fog
+				// scene.fog = new THREE.Fog( 0xffaa55, 1000, FAR );
+				// THREE.ColorUtils.adjustHSV( scene.fog.color, 0.02, -0.15, -0.65 );
+
+				materialDepth = new THREE.MeshDepthMaterial();
+
+				var materialScene = new THREE.MeshBasicMaterial( { color: 0x000000, shading: THREE.FlatShading,transparent: true } );
+
+				//
+
+				var materialA = new THREE.MeshBasicMaterial( { envMap: camera.renderTarget } );
+				var loader2 = new THREE.OBJLoader();
+
+				materialA.transparent = true;
+
+				loader2.addEventListener( 'load', function ( event ) {
+
+					treeMesh = event.content;
+
+					treeMesh.scale.x=120;
+					treeMesh.scale.y=120;
+					treeMesh.scale.z=120;
+
+					for ( var i = 0, l = treeMesh.children.length; i < l; i ++ ) {
+						treeMesh.children[i].material = materialA;
+					};
+
+					scene.add(treeMesh);
+
+				});
+				loader2.load('$.obj');
+				
+
+				// sphere
+
+				/*var geo = new THREE.SphereGeometry( 1, 20, 10 );
+				sphereMesh = new THREE.Mesh( geo, materialScene );
+
+				var sc = 20;
+				sphereMesh.scale.set( sc, sc, sc );
+
+				scene.add( sphereMesh );
+				*/
+
+				var loader = new THREE.OBJLoader();
+
+				loader.addEventListener( 'load', function ( event ) {
+
+					sphereMesh = event.content;
+
+					sphereMesh.scale.x=120;
+					sphereMesh.scale.y=120;
+					sphereMesh.scale.z=120;
+
+					for ( var i = 0, l = sphereMesh.children.length; i < l; i ++ ) {
+						sphereMesh.children[i].material = materialA;
+					};
+
+					scene.add(sphereMesh);
+
+				});
+				loader.load('logo.obj');
+
+				var loader3 = new THREE.OBJLoader();
+
+				loader3.addEventListener( 'load', function ( event ) {
+
+					accMesh = event.content;
+
+					accMesh.scale.x=100;
+					accMesh.scale.y=100;
+					accMesh.scale.z=100;
+
+					for ( var i = 0, l = accMesh.children.length; i < l; i ++ ) {
+						accMesh.children[i].material = materialA;
+					};
+
+					scene.add(accMesh);
+
+				});
+				loader3.load('accenture.obj');
+
+				//
+
+				renderer = new THREE.WebGLRenderer( { antialias: false } );
+				renderer.setSize( window.innerWidth, height );
+				container.appendChild( renderer.domElement );
+
+				renderer.sortObjects = false;
+
+				renderer.autoClear = false;
+				renderer.setClearColorHex( bgColor, 1 );
+
+				renderer.domElement.style.position = 'absolute';
+				renderer.domElement.style.top =  "0px";
+				renderer.domElement.style.left = "0px";
+				renderer.domElement.style.zIndex = -1;
+
+				/*
+
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				container.appendChild( stats.domElement );
+
+				stats.domElement.children[ 0 ].children[ 0 ].style.color = "#888";
+				stats.domElement.children[ 0 ].style.background = "transparent";
+				stats.domElement.children[ 0 ].children[ 1 ].style.display = "none";
+
+				*/
+
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+
+				//
+
+				initPostprocessing();
+
+			}
+
+			//
+
+			function onDocumentMouseMove( event ) {
+
+				mouseX = event.clientX - windowHalfX;
+				mouseY = event.clientY - windowHalfY;
+
+			}
+
+			function onDocumentTouchStart( event ) {
+
+				if ( event.touches.length === 1 ) {
+
+					event.preventDefault();
+
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+				}
+
+			}
+
+			function onDocumentTouchMove( event ) {
+
+				if ( event.touches.length === 1 ) {
+
+					event.preventDefault();
+
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+				}
+
+			}
+
+			//
+
+			function initPostprocessing() {
+
+				postprocessing.scene = new THREE.Scene();
+
+				postprocessing.camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2,  height / 2, height / - 2, -10000, 10000 );
+				postprocessing.camera.position.z = 100;
+
+				postprocessing.scene.add( postprocessing.camera );
+
+				var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat };
+				postprocessing.rtTextureColors = new THREE.WebGLRenderTarget( window.innerWidth, height, pars );
+
+				// Switching the depth formats to luminance from rgb doesn't seem to work. I didn't
+				// investigate further for now.
+				// pars.format = THREE.LuminanceFormat;
+
+				// I would have this quarter size and use it as one of the ping-pong render
+				// targets but the aliasing causes some temporal flickering
+
+				postprocessing.rtTextureDepth = new THREE.WebGLRenderTarget( window.innerWidth, height, pars );
+
+				// Aggressive downsize god-ray ping-pong render targets to minimize cost
+
+				var w = window.innerWidth / 4.0;
+				var h = height / 4.0;
+				postprocessing.rtTextureGodRays1 = new THREE.WebGLRenderTarget( w, h, pars );
+				postprocessing.rtTextureGodRays2 = new THREE.WebGLRenderTarget( w, h, pars );
+
+				// god-ray shaders
+
+				var godraysGenShader = THREE.ShaderGodRays[ "godrays_generate" ];
+				postprocessing.godrayGenUniforms = THREE.UniformsUtils.clone( godraysGenShader.uniforms );
+				postprocessing.materialGodraysGenerate = new THREE.ShaderMaterial( {
+
+					uniforms: postprocessing.godrayGenUniforms,
+					vertexShader: godraysGenShader.vertexShader,
+					fragmentShader: godraysGenShader.fragmentShader
+
+				} );
+
+				var godraysCombineShader = THREE.ShaderGodRays[ "godrays_combine" ];
+				postprocessing.godrayCombineUniforms = THREE.UniformsUtils.clone( godraysCombineShader.uniforms );
+				postprocessing.materialGodraysCombine = new THREE.ShaderMaterial( {
+
+					uniforms: postprocessing.godrayCombineUniforms,
+					vertexShader: godraysCombineShader.vertexShader,
+					fragmentShader: godraysCombineShader.fragmentShader
+
+				} );
+
+				var godraysFakeSunShader = THREE.ShaderGodRays[ "godrays_fake_sun" ];
+				postprocessing.godraysFakeSunUniforms = THREE.UniformsUtils.clone( godraysFakeSunShader.uniforms );
+				postprocessing.materialGodraysFakeSun = new THREE.ShaderMaterial( {
+
+					uniforms: postprocessing.godraysFakeSunUniforms,
+					vertexShader: godraysFakeSunShader.vertexShader,
+					fragmentShader: godraysFakeSunShader.fragmentShader
+
+				} );
+
+				postprocessing.godraysFakeSunUniforms.bgColor.value.setHex( bgColor );
+				postprocessing.godraysFakeSunUniforms.sunColor.value.setHex( sunColor );
+
+				postprocessing.godrayCombineUniforms.fGodRayIntensity.value = 0.75;
+
+				postprocessing.quad = new THREE.Mesh( new THREE.PlaneGeometry( window.innerWidth, height ), postprocessing.materialGodraysGenerate );
+				postprocessing.quad.position.z = -9900;
+				postprocessing.scene.add( postprocessing.quad );
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate, renderer.domElement );
+
+				render();
+				//stats.update();
+
+			}
+
+			function render() {
+
+				var time = Date.now() / 1000;
+
+				sphereMesh.position.x = orbitRadius * Math.cos( time );
+				sphereMesh.position.z = orbitRadius * Math.sin( time ) - 100;
+
+				sphereMesh.rotation.x += 0.02;
+				sphereMesh.rotation.y += 0.03;
+
+				treeMesh.rotation.x += 0.02;
+				treeMesh.rotation.y += 0.03;
+				treeMesh.rotation.z += 0.02;
+
+				
+				accMesh.position.x = orbitRadius * Math.sin( time );
+				accMesh.position.z = orbitRadius * Math.cos( time ) - 100;
+
+				accMesh.rotation.x += 0.03;
+				accMesh.rotation.y += 0.02;
+
+				camera.position.x += ( mouseX - camera.position.x ) * 0.036;
+				camera.position.y += ( - ( mouseY ) - camera.position.y ) * 0.036;
+
+				camera.lookAt( scene.position );
+
+				if ( postprocessing.enabled ) {
+
+					// Find the screenspace position of the sun
+
+					screenSpacePosition.copy( sunPosition );
+					projector.projectVector( screenSpacePosition, camera );
+
+					screenSpacePosition.x = ( screenSpacePosition.x + 1 ) / 2;
+					screenSpacePosition.y = ( screenSpacePosition.y + 1 ) / 2;
+
+					// Give it to the god-ray and sun shaders
+
+					postprocessing.godrayGenUniforms[ "vSunPositionScreenSpace" ].value.x = screenSpacePosition.x;
+					postprocessing.godrayGenUniforms[ "vSunPositionScreenSpace" ].value.y = screenSpacePosition.y;
+
+					postprocessing.godraysFakeSunUniforms[ "vSunPositionScreenSpace" ].value.x = screenSpacePosition.x;
+					postprocessing.godraysFakeSunUniforms[ "vSunPositionScreenSpace" ].value.y = screenSpacePosition.y;
+
+					// -- Draw sky and sun --
+
+					// Clear colors and depths, will clear to sky color
+
+					renderer.clearTarget( postprocessing.rtTextureColors, true, true, false );
+
+					// Sun render. Runs a shader that gives a brightness based on the screen
+					// space distance to the sun. Not very efficient, so i make a scissor
+					// rectangle around the suns position to avoid rendering surrounding pixels.
+
+					var sunsqH = 0.74 * height; // 0.74 depends on extent of sun from shader
+					var sunsqW = 0.74 * height; // both depend on height because sun is aspect-corrected
+
+					screenSpacePosition.x *= window.innerWidth;
+					screenSpacePosition.y *= height;
+
+					renderer.setScissor( screenSpacePosition.x - sunsqW / 2, screenSpacePosition.y - sunsqH / 2, sunsqW, sunsqH );
+					renderer.enableScissorTest( true );
+
+					postprocessing.godraysFakeSunUniforms[ "fAspect" ].value = window.innerWidth / height;
+
+					postprocessing.scene.overrideMaterial = postprocessing.materialGodraysFakeSun;
+					renderer.render( postprocessing.scene, postprocessing.camera, postprocessing.rtTextureColors );
+
+					renderer.enableScissorTest( false );
+
+					// -- Draw scene objects --
+
+					// Colors
+
+					scene.overrideMaterial = null;
+					renderer.render( scene, camera, postprocessing.rtTextureColors );
+
+					// Depth
+
+					scene.overrideMaterial = materialDepth;
+					renderer.render( scene, camera, postprocessing.rtTextureDepth, true );
+
+					// -- Render god-rays --
+
+					// Maximum length of god-rays (in texture space [0,1]X[0,1])
+
+					var filterLen = 1.0;
+
+					// Samples taken by filter
+
+					var TAPS_PER_PASS = 6.0;
+
+					// Pass order could equivalently be 3,2,1 (instead of 1,2,3), which
+					// would start with a small filter support and grow to large. however
+					// the large-to-small order produces less objectionable aliasing artifacts that
+					// appear as a glimmer along the length of the beams
+
+					// pass 1 - render into first ping-pong target
+
+					var pass = 1.0;
+					var stepLen = filterLen * Math.pow( TAPS_PER_PASS, -pass );
+
+					postprocessing.godrayGenUniforms[ "fStepSize" ].value = stepLen;
+					postprocessing.godrayGenUniforms[ "tInput" ].value = postprocessing.rtTextureDepth;
+
+					postprocessing.scene.overrideMaterial = postprocessing.materialGodraysGenerate;
+
+					renderer.render( postprocessing.scene, postprocessing.camera, postprocessing.rtTextureGodRays2 );
+
+					// pass 2 - render into second ping-pong target
+
+					pass = 2.0;
+					stepLen = filterLen * Math.pow( TAPS_PER_PASS, -pass );
+
+					postprocessing.godrayGenUniforms[ "fStepSize" ].value = stepLen;
+					postprocessing.godrayGenUniforms[ "tInput" ].value = postprocessing.rtTextureGodRays2;
+
+					renderer.render( postprocessing.scene, postprocessing.camera, postprocessing.rtTextureGodRays1  );
+
+					// pass 3 - 1st RT
+
+					pass = 3.0;
+					stepLen = filterLen * Math.pow( TAPS_PER_PASS, -pass );
+
+					postprocessing.godrayGenUniforms[ "fStepSize" ].value = stepLen;
+					postprocessing.godrayGenUniforms[ "tInput" ].value = postprocessing.rtTextureGodRays1;
+
+					renderer.render( postprocessing.scene, postprocessing.camera , postprocessing.rtTextureGodRays2  );
+
+					// final pass - composite god-rays onto colors
+
+					postprocessing.godrayCombineUniforms["tColors"].value = postprocessing.rtTextureColors;
+					postprocessing.godrayCombineUniforms["tGodRays"].value = postprocessing.rtTextureGodRays2;
+
+					postprocessing.scene.overrideMaterial = postprocessing.materialGodraysCombine;
+
+					renderer.render( postprocessing.scene, postprocessing.camera );
+					postprocessing.scene.overrideMaterial = null;
+
+				} else {
+
+					renderer.clear();
+					renderer.render( scene, camera );
+
+				}
+
+			}
+
+		</script>
+	</body>
+</html>

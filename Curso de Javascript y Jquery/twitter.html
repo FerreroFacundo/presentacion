@@ -1,0 +1,509 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>twitter.txt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+body{
+    margin: 0 auto;
+    font-family: Georgia, Palatino, serif;
+    color: #444444;
+    line-height: 1;
+    padding: 5px;
+
+}
+h1, h2, h3, h4 {
+    
+    font-weight: 400;
+}
+h1, h2, h3, h4, h5, p {
+    margin-bottom: 16px;
+    padding: 0;
+}
+h1 {
+    font-size: 38px;
+}
+h2 {
+    font-size: 22px;
+    margin: 20px 0 6px;
+}
+h3 {
+    font-size: 21px;
+}
+h4 {
+    font-size: 18px;
+}
+h5 {
+    font-size: 16px;
+}
+a {
+    color: #0099ff;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+a:hover {
+    text-decoration: none;
+    color: #ff6600;
+}
+a:visited {
+    color: purple;
+}
+ul, ol {
+    padding: 0;
+    margin: 0;
+}
+li {
+    line-height: 24px;
+    margin-left: 44px;
+}
+li ul, li ul {
+    margin-left: 24px;
+}
+p, ul, ol {
+    
+    line-height: 20px;
+}
+pre {
+    padding: 0px 24px;
+    max-width: 800px;
+    white-space: pre-wrap;
+}
+code {
+    font-family: Consolas, Monaco, Andale Mono, monospace;
+    line-height: 1.5;
+    
+}
+aside {
+    display: block;
+    float: right;
+    width: 390px;
+}
+blockquote {
+    border-left:.5em solid #eee;
+    padding: 0 2em;
+    margin-left:0;
+    max-width: 476px;
+}
+blockquote  cite {
+    
+    line-height:20px;
+    color:#bfbfbf;
+}
+blockquote cite:before {
+    content: '\2014 \00A0';
+}
+
+blockquote p {  
+    color: #666;
+    max-width: 460px;
+}
+hr {
+    width: 540px;
+    text-align: left;
+    margin: 0 auto 0 0;
+    color: #999;
+}
+
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  margin: 0;
+  vertical-align: baseline;
+  *vertical-align: middle;
+}
+button, input {
+  line-height: normal;
+  *overflow: visible;
+}
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+}
+input[type=checkbox], input[type=radio] {
+  cursor: pointer;
+}
+/* override default chrome & firefox settings */
+input:not([type="image"]), textarea {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+label,
+input,
+select,
+textarea {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: normal;
+  margin-bottom: 18px;
+}
+input[type=checkbox], input[type=radio] {
+  cursor: pointer;
+  margin-bottom: 0;
+}
+input[type=text],
+input[type=password],
+textarea,
+select {
+  display: inline-block;
+  width: 210px;
+  padding: 4px;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  height: 18px;
+  color: #808080;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+select, input[type=file] {
+  height: 27px;
+  line-height: 27px;
+}
+textarea {
+  height: auto;
+}
+
+/* grey out placeholders */
+:-moz-placeholder {
+  color: #bfbfbf;
+}
+::-webkit-input-placeholder {
+  color: #bfbfbf;
+}
+
+input[type=text],
+input[type=password],
+select,
+textarea {
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+  transition: border linear 0.2s, box-shadow linear 0.2s;
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+  outline: none;
+  border-color: rgba(82, 168, 236, 0.8);
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+  -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+/* buttons */
+button {
+  display: inline-block;
+  padding: 4px 14px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: #0064cd;
+  background-repeat: repeat-x;
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#049cdb), to(#0064cd));
+  background-image: -moz-linear-gradient(top, #049cdb, #0064cd);
+  background-image: -ms-linear-gradient(top, #049cdb, #0064cd);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #049cdb), color-stop(100%, #0064cd));
+  background-image: -webkit-linear-gradient(top, #049cdb, #0064cd);
+  background-image: -o-linear-gradient(top, #049cdb, #0064cd);
+  background-image: linear-gradient(top, #049cdb, #0064cd);
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  border: 1px solid #004b9a;
+  border-bottom-color: #003f81;
+  -webkit-transition: 0.1s linear all;
+  -moz-transition: 0.1s linear all;
+  transition: 0.1s linear all;
+  border-color: #0064cd #0064cd #003f81;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+button:hover {
+  color: #fff;
+  background-position: 0 -15px;
+  text-decoration: none;
+}
+button:active {
+  -webkit-box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+/* CSS stylesheet is based on Kevin Burke's Markdown.css project (http://kevinburke.bitbucket.org/markdowncss) */
+</style>
+</head>
+<body style="color:white;background:black" >
+<h2>Un Ejemplo de Aplicación</h2>
+
+<p>Para demostrar el poder de los eventos personalizados, se desarrollará una simple herramienta para buscar enTwitter. Dicha herramienta ofrecerá varias maneras para que el usuario realice una búsqueda: ingresando el término a buscar en una caja de texto o consultando los “temas de moda” de Twitter.<br />
+Los resultados de cada término se mostrarán en un contenedor de resultados; dichos resultados podrán expandirse, colapsarse, refrescarse y removerse, ya sea de forma individual o conjunta.<br />
+El resultado final de la aplicación será el siguiente:</p>
+
+<h3>Iniciación</h3>
+
+<p>Se empieza con un HTML básico:</p>
+
+<pre><code class="xml">&lt;h1&gt;Twitter Search&lt;/h1&gt;
+&lt;input type="button" id="get_trends"
+    value="Load Trending Terms" /&gt;
+
+&lt;form&gt;
+    &lt;input type="text" class="input_text"
+        id="search_term" /&gt;
+    &lt;input type="submit" class="input_submit"
+        value="Add Search Term" /&gt;
+&lt;/form&gt;
+
+&lt;div id="twitter"&gt;
+    &lt;div class="template results"&gt;
+        &lt;h2&gt;Search Results for
+        &lt;span class="search_term"&gt;&lt;/span&gt;&lt;/h2&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>El HTML posee un contenedor (#twitter) para el widget, una plantilla para los resultados (oculto con CSS) y un simple formulario en donde el usuario puede escribir el término a buscar.<br />
+Existen dos tipos de elementos en los cuales actuar: los contenedores de resultados y el contenedor Twitter.<br />
+Los contenedores de resultados son el corazón de la aplicación. Se creará una extensión para preparar cada contenedor una vez que éste se agrega al contenedor Twitter. Además, entre otras cosas, la extensión vinculará los eventos personalizados por cada contenedor y añadirá en la parte superior derecha de cada contenedor botones que ejecutarán acciones. Cada contenedor de resultados tendrá los siguientes eventos personalizados:<br />
+refresh<br />
+Señala que la información del contenedor se esta actualizando y dispara la petición que busca los datos para el término de búsqueda.<br />
+populate<br />
+Recibe la información JSON y la utiliza para rellenar el contenedor.<br />
+remove<br />
+Remueve el contenedor de la página luego de que el usuario confirme la acción. Dicha confirmación puede omitirse si se pasa true como segundo argumento del controlador de evento. El evento además remueve el término asociado con el contenedor de resultados del objeto global que contiene los términos de búsqueda.<br />
+collapse</p>
+
+<p>Añade una clase al contenedor, la cual ocultará el resultado a través de CSS. Además cambiará el botón de “Colapsar” a “Expandir”.<br />
+expand<br />
+Remueve la clase del contenedor que añade el evento collapse. Además cambiará el botón de “Expandir” a “Colapsar”.<br />
+Además, la extensión es responsable de añadir los botones de acciones al contenedor, vinculando un eventoclick a cada botón y utilizando la clase de cada ítem para determinar qué evento personalizado será ejecutado en cada contenedor de resultados.</p>
+
+<pre><code>$.fn.twitterResult = function(settings) {
+    return this.each(function() {
+        var $results = $(this),
+            $actions = $.fn.twitterResult.actions =
+                $.fn.twitterResult.actions ||
+                $.fn.twitterResult.createActions(),
+            $a = $actions.clone().prependTo($results),
+            term = settings.term;
+
+        $results.find('span.search_term').text(term);
+
+        $.each(
+            ['refresh', 'populate', 'remove', 'collapse', 'expand'],
+            function(i, ev) {
+                $results.bind(
+                    ev,
+                    { term : term },
+                    $.fn.twitterResult.events[ev]
+                );
+            }
+        );
+
+        // utiliza la clase de cada acción para determinar
+        // que evento se ejecutará en el panel de resultados
+        $a.find('li').click(function() {
+            // pasa el elemento &lt;li&gt; clickeado en la función
+            // para que se pueda manipular en caso de ser necesario
+            $results.trigger($(this).attr('class'), [ $(this) ]);
+        });
+    });
+};
+
+$.fn.twitterResult.createActions = function() {
+    return $('&lt;ul class="actions" /&gt;').append(
+        '&lt;li class="refresh"&gt;Refresh&lt;/li&gt;' +
+        '&lt;li class="remove"&gt;Remove&lt;/li&gt;' +
+        '&lt;li class="collapse"&gt;Collapse&lt;/li&gt;'
+    );
+};
+
+$.fn.twitterResult.events = {
+    refresh : function(e) {
+           // indica que los resultados se estan actualizando
+        var $this = $(this).addClass('refreshing');
+
+        $this.find('p.tweet').remove();
+        $results.append('&lt;p class="loading"&gt;Loading ...&lt;/p&gt;');
+
+        // obtiene la información de Twitter en formato jsonp
+        $.getJSON(
+            'http://search.twitter.com/search.json?q=' +
+                escape(e.data.term) + '&amp;rpp=5&amp;callback=?',
+            function(json) {
+                $this.trigger('populate', [ json ]);
+            }
+        );
+    },
+
+    populate : function(e, json) {
+        var results = json.results;
+        var $this = $(this);
+
+        $this.find('p.loading').remove();
+
+        $.each(results, function(i,result) {
+            var tweet = '&lt;p class="tweet"&gt;' +
+                '&lt;a href="http://twitter.com/' +
+                result.from_user +
+                '"&gt;' +
+                result.from_user +
+                '&lt;/a&gt;: ' +
+                result.text +
+                ' &lt;span class="date"&gt;' +
+                result.created_at +
+                '&lt;/span&gt;' +
+            '&lt;/p&gt;';
+            $this.append(tweet);
+        });
+
+        // indica que los resultados
+        // ya se han actualizado
+        $this.removeClass('refreshing');
+    },
+
+    remove : function(e, force) {
+        if (
+            !force &amp;&amp;
+            !confirm('Remove panel for term ' + e.data.term + '?')
+        ) {
+            return;
+        }
+        $(this).remove();
+
+        // indica que ya no se tendrá
+        // un panel para el término
+        search_terms[e.data.term] = 0;
+    },
+
+    collapse : function(e) {
+        $(this).find('li.collapse').removeClass('collapse')
+            .addClass('expand').text('Expand');
+
+        $(this).addClass('collapsed');
+    },
+
+    expand : function(e) {
+        $(this).find('li.expand').removeClass('expand')
+            .addClass('collapse').text('Collapse');
+
+        $(this).removeClass('collapsed');
+    }
+};
+</code></pre>
+
+<p>El contenedor Twitter, posee solo dos eventos personalizados:</p>
+
+<ul>
+<li><p>getResults<br />
+Recibe un término de búsqueda y comprueba si ya no existe un contenedor de resultados para dicho término. En caso de no existir, añade un contenedor utilizando la plantilla de resultados, lo configura utilizando la extensión $.fn.twitterResult (mostrada anteriormente) y luego ejecuta el evento refresh con el fin de cargar correctamente los resultados. Finalmente, guarda el término buscado para no tener volver a pedir los datos sobre la búsqueda.</p></li>
+<li><p>getTrends<br />
+Consulta a Twitter el listado de los 10 primeros “términos de moda”, interactúa con ellos y ejecuta el eventogetResults por cada uno, de tal modo que añade un contenedor de resultados por cada término.<br />
+Vinculaciones en el contenedor Twitter:</p>
+
+<pre><code>$('#twitter')
+.on('getResults', function(e, term) {
+    // se comprueba que ya no exista una caja para el término
+    if (!search_terms[term]) {
+        var $this = $(this);
+        var $template = $this.find('div.template');
+
+
+<pre><code>    // realiza una copia de la plantilla
+    // y la inserta como la primera caja de resultados
+    $results = $template.clone().
+        removeClass('template').
+        insertBefore($this.find('div:first')).
+        twitterResult({
+            'term' : term
+        });
+
+
+    // carga el contenido utilizando el evento personalizado "refresh"
+    // vinculado al contenedor de resultados
+    $results.trigger('refresh');
+    search_terms[term] = 1;
+}
+</code></pre>
+
+})
+.on('getTrends', function(e) {
+    var $this = $(this);
+    $.getJSON('http://api.twitter.com/1/trends/1.json?callback=?', function(json) {
+            var trends = json[0].trends;
+            $.each(trends, function(i, trend) {
+                $this.trigger('getResults', [ trend.name ]);
+            });
+        });
+});
+</code></pre></li>
+</ul>
+
+<p>Hasta ahora, se ha escrito una gran cantidad de código que no realiza nada, lo cual no esta mal. Se han especificado todos los comportamientos que se desean para los elementos núcleos y se ha creado un sólido marco para la creación rápida de la interfaz.<br />
+A continuación, se conecta la caja de búsqueda y el botón para cargar los “Temas de moda”. En la caja de texto, se captura el término ingresado y se pasa al mismo tiempo que se ejecuta el evento getResults. Por otro lado, haciendo click en el botón para cargar los “Temas de moda”, se ejecuta el evento getTrends:</p>
+
+<pre><code>$('form').submit(function(e) {
+    e.preventDefault();
+    var term = $('#search_term').val();
+    $('#twitter').trigger('getResults', [ term ]);
+});
+
+$('#get_trends').click(function() {
+    $('#twitter').trigger('getTrends');
+});
+</code></pre>
+
+<p>Añadiendo botones con un ID apropiado, es posible remover, colapsar, expandir y refrescar todos los contenedores de resultados al mismo tiempo. Para el botón que remueve el contenedor, notar que se esta pasandotrue al controlador del evento como segundo argumento, indicando que no se desea una confirmación del usuario para remover el contenedor.</p>
+
+<pre><code>$.each(['refresh', 'expand', 'collapse'], function(i, ev) {
+    $('#' + ev).click(function(e) { $('#twitter div.results').trigger(ev); });
+});
+
+$('#remove').click(function(e) {
+    if (confirm('Remove all results?')) {
+        $('#twitter div.results').trigger('remove', [ true ]);
+    }
+});
+</code></pre>
+
+<h3>Conclusión</h3>
+
+<p>Los eventos personalizados ofrecen una nueva manera de pensar el código: ellos ponen el énfasis en el objetivo de un comportamiento, no en el elemento que lo activa. Si se toma el tiempo desde el principio para explicar las piezas de su aplicación, así como los comportamientos que esas piezas necesitan exhibir, los eventos personalizados proveen una manera poderosa para “hablar” con esas piezas, ya sea de una en una o en masa.<br />
+Una vez que los comportamientos se han descripto, se convierte en algo trivial ejecutarlos desde cualquier lugar, lo que permite la rápida creación y experimentación de opciones de interfaz. Finalmente, los eventos personalizados también permiten mejorar la lectura del código y su mantenimiento, haciendo clara la relación entre un elemento y su comportamiento.<br />
+Puede ver la aplicación completa en los archivos demos/custom-events/custom-events.html ydemos/custom-events/js/custom-events.js del material que componen este libro.</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

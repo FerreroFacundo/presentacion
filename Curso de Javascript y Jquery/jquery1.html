@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="utf-8">
+		
+		<title>Javascript y JQuery</title>
+
+		
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		
+		<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+		
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="css/print/pdf.css" type="text/css" media="print">
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+	
+	<body>
+		
+		<div class="reveal">
+
+			<!-- Used to fade in a background when a specific slide state is reached -->
+			<div class="state-background"></div>
+			
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section  data-markdown style="background:rgba(0, 0, 0, 0.6)">
+					#Javascript  
+					#y  
+					#JQuery
+				</section>
+
+<section data-markdown>
+		###JQuery
+		###Temario  
+-  Principios básicos (usabilidad)  
+	*  selectors, manipulacion del dom, manipulacion de estilos  
+-  Comprobar Selecciones  
+-  Ejemplos prácticos  
+-  El core de jQuery  
+	*  Gestión de eventos, Efectos y animaciones  
+-  Ajax  
+	*  Tipos de comunicaciones  
+	*  Tipos de datos y respuestas soportados  
+	*  Opciones soportadas  
+	*  Eventos  
+</section>
+<section data-markdown class="javascript">
+
+###Uso más básico -->SELECTORS  
+
+JQuery define 2 variables globales $ y jquery, a partir de estas construye todas la librería  
+<pre><code class="javascript">
+$('*')// todos los elementos del DOM  
+
+$("p > *")// todos los nodos hijos de un párrafo.  
+
+$("#specialID")// todos los elementos con id="specialID".  
+
+$(".specialClass")// todos con la clase specialClass.  
+
+$("li:not(.myclass)")// los li que no tienen clase "myclass".
+
+$("a#specialID.specialClass")// links con id specialID y clase specialClass.
+
+$("p a.specialClass")// links de clase specialClass dentro de los párrafos.
+</code></pre>
+</section>
+<section data-markdown class="javascript">
+
+	$("ul li:first")// primer elemento dentro de li dentro de ul
+
+	$("strong + em")// todos los em que siguen imediatamente a un hermano/vecino que coincidan con strong.
+
+	$("p ~ ul")// todos ul que siguen y tienen a un hermano p.
+
+	$("code, em, strong")// unión de code em strong.
+
+	$("p strong, .myclass")// todos los strong dentro de un p junto con elems de clase myclass.
+
+	$(":empty")// elementos vacíos.
+
+	$("p:empty")// p vacíos.
+
+	$("div[p]")// divs que contienen p.
+
+	$("p[.myclass]")// todos los p que contienen un elementoc on clase myclass.
+
+	$("a[@rel]")// todos a que tienen definido un atributo rel.
+
+	$("input[@name=myname]")// input con attr name y valor myname
+
+
+</section>
+<section data-markdown>
+###JQuery - DOM  
+
+-  attr( properties )	setea clave/valor con los valores del objeto como propiedades a todos los elementos
+-  attr( key, fn )	setea un solo valor (fn) a el propiedad con nombre "key".
+-  removeAttr( name )	remueve el atributo a los elementos
+-  hasClass( class )	evalúa si algunos de los elementos seleccionados pertenece a la clase 
+-  removeClass( class )	quita la clase(s) de la selección
+-  toggleClass( class )	agrega la clase especificada, si no está presente, o la quita si ya está
+
+</section>
+<section data-markdown>
+-  html( ):	devuelve el valor innerHTML de la selección.  
+
+-  html( val ):	setea el contenido en formato html.  
+
+-  text( ):	obtiene el texto (combinado) de la selección.  
+
+-  text( val ):	setea el texto de la selección.  
+
+-  val( ):	obtiene el valor de entrada de selección  
+
+-  val( val ):	setea el valor de los elementos seleccionados si es un `<input>`, pero si es llamado con un `select` con el valor de `<option>` pasado, esa opción será seleccionada, si es con un check box o radio box, todas las seleccionadas son marcadas (check).
+</section>
+<section data-markdown>
+###Ejemplos 
+
+	$("#myID").attr("custom") //devuelve el valor de atributo "custom" para el primer elemento con id="myID"
+	
+	$("img").attr("alt", "Sample Image")// setea el atributo alt de todas las imagenes al valor "Sample Image".
+	
+	$("input").attr({ value: "", title: "Please enter a value" }); // setea el valor de todos los `<input>` a un string vacío, y setea el titulo al string "Please enter a value"
+	
+	$("a[href^=http://]").attr("target","_blank")// selecciona todo los links con el atributo href que empieza con http:// y setea el atributo target a "_blank"
+	
+	$("a").removeAttr("target") // elimina el atributo target the todos los links.
+	
+	$("form").submit(function() {$(":submit",this).attr("disabled", "disabled");}); // nofica los atributos deshabilitados al valor "disabled" mientras se clickee en boton submit. This would modify the disabled attribute to the value "disabled" while clicking Submit button.
+
+</section>
+<section data-markdown>
+
+	$("p:last").hasClass("selected"): devuelve true si el ultimo `<p>` tiene asociada la clase "selected".
+
+	$("p").text(): devuelve un string que tiene todos los textos dentro de los `<p>` del documento.
+
+	$("p").text("<i>Hello World</i>"): setea `<I>Hello World</I>` como contenido de todos los `<p>` 
+
+	$("p").html() : devuele el html de todos los párrafos.
+
+	$("div").html("Hello World") : el contenido de todos los `<div>` pasa a ser "Hello World"
+
+	$("input:checkbox:checked").val() : obtiene el primer valor de los checkbos que están seleccionados
+
+	$("input:radio[name=bar]:checked").val(): obtiene el primer valor de un set de radio buttons
+
+	$("button").val("Hello") : define el valor de todos los `<button>` a "hello".
+
+</section>
+<section data-markdown>
+
+	
+
+	$("input").val("on") : setea el valor de todos los input a "on" (radio y checks se marcan como seleccionados).
+
+	$("select").val("Orange") : selecciona todas las opciones dentro de un select con valor "Orange".
+
+	$("select").val("Orange", "Mango") : selecciona las opciones con "Orange" y "Mango".
+
+</section>
+<section data-markdown>
+
+###jQuery - DOM (colecciones resultantes de selectors)
+
+
+-  eq( index )	reduce el set de resultados al indice pedido. ej 
+$('ul li').eq(5); //devuelve el 6to elem  
+
+-  find( selector ) busca en los descendientes el que cumpla condición.
+
+-  filter( selector )	filtra con los que cumplen la condicion del selector(s).
+
+-  filter( fn )	ídem con una función.
+
+-  not( selector )	quita los elementos que cumplen la condición.
+
+-  is( selector )	si alguno de los elementos cumple la condicion del selector devuelve true.
+
+</section>
+<section data-markdown>
+
+### Dom (cont.)
+
+-  map( callback )	mapea una funcion, generalmente transforma el set de elems a otros valores.
+
+-  slice( start, [end] )	selecciona un subconjunto.
+
+-  add( selector )	agrega los elems que cumplen la ocndicion del selector a la colección actual.
+
+-  children( [selector])	recupera los hijos (1 nivel) que cumplan condicion.
+
+-  contents( )	recuepra todos los nodo hijos de un elemento, en el caso de iframe recupera el documento asociado.
+
+</section>
+<section data-markdown>
+	### Dom (cont.)
+
+-  parent( [selector] )	recupera el padre, si el selector tiene más de un elemento con distintos padres devuelve un set sin duplicados de los padres.
+
+-  parents( [selector] )	obtiene un set de elementos que contien el unico ancestro de la seleccipin; excepto por el elemento raíz
+
+-  prev( [selector] )/next: recupera el hermano anterior/siguiente (elemento unico)
+
+-  prevAll( [selector] )/nextAll:	todos los hermanos anteriores/posteriores
+
+-  siblings( [selector] )	:todos los hermanos correspondientes del selector.
+
+</section>
+<section data-markdown>
+###jQuery - CSS Methods
+
+-  css( name )	recupera el valor de estilo asociado (getter).
+-  css( name, value )	Setter.
+-  css( properties )	Set a key/value object as style properties to all matched elements.
+
+-  height( val )	setter de la altura
+-  height( )	valor actual de la altura en pixeles.
+-  width( val )/width( ):análogos a anteriores
+-  innerHeight( )	la altura (incluyendo padding) sin bordes .
+-  innerWidth( )	análogo anterior.
+-  outerHeight( [margin] )/outerWidth( [margin] ):análogo incluyendo bordes
+
+</section>
+<section data-markdown>
+	###CSS (cont)
+
+
+	
+-  offset( )	desplazamiento en pixeles relativo al documento.
+-  offsetParent( )	colección con los padres posicionados del elemento.
+-  position( )	posicion relativa al padre (top y left).
+-  scrollLeft( val )	desplazar elemento a izquierda dentro del padre.
+-  scrollLeft( )	valor actual del desplazamiento.
+-  scrollTop( val )/scrollTop( ): analogos a anteriores	
+
+</section>
+<section data-markdown>
+
+###jQuery - Manipulación del DOM 
+
+
+-  after( content )	insertar el contenido despues de elemento(s) actual.
+-  before( content )	inserta antes.
+-  append( content )	inserta dentro de elemento(s) al final de su lista de hijos.
+-  appendTo( selector ) append el elemento actual a todos los que cumplen la condicion del selector.
+-  prepend( content )/prependTo( selector)
+
+</section>
+<section data-markdown>
+	###jQuery - Manipulación del DOM (cont)
+-  clone() clona el elemento, y selecciona los clones
+-  clone( bool )	clona el elemento, junto con sus handlers, y selecciona los clones.
+
+-  empty( )	limpia la colección de elementos seleccionados:
+-  html( val )	setea el valor de html de un elemento (innerHTML).
+-  html( )	recupera el innerHTML.
+</section>
+<section data-markdown>
+	###jQuery - Manipulación del DOM 
+-  insertAfter( selector )	
+-  insertBefore( selector )	
+-  specified, set of elements.
+-  remove( expr )	elimina elementos del DOM.
+-  replaceAll( selector )	reemplaza los elementos recuperados en el selector por el/los actuales.
+-  replaceWith( content )	reemplaza elementos con con el html u obje del dom especificados en content.
+</section>
+<section>
+<section data-markdown>
+	###jQuery - Manipulación del DOM 
+
+-  wrap( elem )	"Envuelve" cada elemento seleccionado con "elem"
+-  wrap( html )	
+-  wrapAll( elem )	Envuelve todos los seleccionados dentro de un solo "elem
+-  wrapAll( html )	
+-  wrapInner( elem )Envuelve cada contenido (hijos) de cada elemento incluyendo texto
+-  wrapInner( html )	
+</section>
+<section data-markdown>
+
+		<div class="container">
+			<div class="inner">Hello</div>
+			<div class="inner">Goodbye</div>
+		</div>
+
+JQuery
+
+		$('.inner').wrap('<div class="new" />');
+
+Se crea un div, se agrega al dom y contiene a los elementos seleccionados
+
+		<div class="container">
+			<div class="new">
+				<div class="inner">Hello</div>
+			</div>
+			<div class="new">
+				<div class="inner">Goodbye</div>
+			</div>
+		</div>
+</section>
+</section>
+<section data-markdown>
+###jQuery - Events Handling
+
+-  blur	
+-  change	
+-  click	
+-  dblclick 
+-  error	:error al cargar (load y unload) .
+-  focus	
+-  keydown	
+-  keypress	
+-  keyup	
+-  load	
+</section>
+<section data-markdown>
+-  mousedown 
+-  mouseenter
+-  mouseleave
+-  mousemove
+-  mouseout
+-  mouseover
+-  mouseup	
+-  resize	
+-  scroll	
+-  select	:cuando un texto es seleccionado
+-  submit	
+-  unload	
+
+</section>
+<section data-markdown>
+### Comprobar Selecciones
+
+-  Cuando se realiza una selección utilizando $(), siempre es devuelto un objeto, y si se lo evalúa, éste siempre devolverá true.  
+
+
+		if ($('div.foo')) { ... } //se ejecuta siempre 
+		if ($('div.foo').length) { ... }//sólo si se recuperaron elementos 
+
+		//convencion de variables que guardan obj JQUERY
+
+		$variable=$('div.foo')
+
+</section>
+<section data-markdown>
+
+###Ejemplos prácticos
+<pre><code class="javascript">
+$('#content')
+       .find('h3')
+       .eq(2)
+       .html('nuevo texto para el tercer elemento h3');
+</code></pre>
+Si desea volver a la selección original en el medio del encadenado, jQuery ofrece el método $.fn.end para poder hacerlo.
+Restablecer la selección original utilizando el método $.fn.end  
+
+<pre><code class="javascript">
+$('#content')
+       .find('h3')
+       .eq(2)
+           .html('nuevo texto para el tercer elemento h3')
+       .end() // reestablece la selección a todos los elementos h3 en #content
+       .eq(0)
+           .html('nuevo texto para el primer elemento h3');
+</code></pre>
+</section>
+<section data-markdown class="javascript">
+####Moverse a través del DOM utilizando métodos de recorrido
+<pre><code class="javascript">	
+$('h1').next('p'); // seleccionar el inmediato y próximo
+                   // elemento p con respecto a H1
+$('div:visible').parent(); // seleccionar el elemento contenedor
+                           // a un div visible
+                              
+$('input[name=first_name]').closest('form');  
+		// seleccionar el elemento form más cercano a un input
+			
+$('#myList').children(); // seleccionar todos los elementos
+                         // hijos de #myList
+$('li.selected').siblings();// seleccionar todos los items
+                            // hermanos del elemento li
+</code></pre>
+</section>
+<section data-markdown>
+###Interactuar en una selección
+
+	$('#myList li').each(function(idx, el) {
+        console.log(
+            'El elemento ' + idx +
+            'contiene el siguiente HTML: ' +
+            $(el).html()
+        );
+    });
+
+</section>
+<section data-markdown>
+###Obtener propiedades CSS
+<pre><code class="javascript" >
+$('h1').css('fontSize'); // devuelve una cadena de caracteres como "19px"
+    $('h1').css('font-size'); // también funciona
+
+//Establecer propiedades CSS
+$('h1').css('fontSize', '100px'); // establece una propiedad individual CSS
+    $('h1').css({ 
+        'fontSize' : '100px',
+        'color' : 'red'     
+    }); // establece múltiples propiedades CSS
+</code></pre>
+Notar que el estilo del argumento utilizado en la segunda línea del ejemplo — es un objeto que contiene múltiples propiedades. Esta es una forma común de pasar múltiples argumentos a una función, y muchos métodos establecedores de la biblioteca aceptan objetos para fijar varias propiedades de una sola vez.
+</section>
+<section data-markdown>
+A partir de la versión 1.6, utilizando $.fn.css también es posible establecer valores relativos en las propiedades CSS de un elemento determinado:
+Establecer valores CSS relativos
+	
+	$('h1').css({ 
+		'fontSize' : '+=15px', // suma 15px al tamaño original del elemento
+		'paddingTop' : '+=20px' // suma 20px al padding superior original del elemento
+	});
+Se debería evitar modificar directamente las propiedades de css. En su lugar, lo ideal, es escribir reglas CSS que se apliquen a clases que describan los diferentes estados visuales de los elementos y luego cambiar la clase del elemento para aplicar el estilo que se desea mostrar.
+
+</section>
+<section data-markdown>
+###Trabajar con clases
+	var $h1 = $('h1');    
+    $h1.addClass('big');
+    $h1.removeClass('big');
+    $h1.toggleClass('big');
+    if ($h1.hasClass('big')) { ... }
+
+</section>
+<section data-markdown>
+
+
+###Utilizar una función para determinar el valor del nuevo atributo  
+
+	$('#myDiv a:first').attr({
+		rel : 'super-special',
+		href : function(idx, href) {
+			return '/newPath/' + href;
+		}
+	});    
+	$('#myDiv a:first').attr('href', function(idx, href) {
+		return '/newPath/' + href;
+	});
+
+</section>
+<section data-markdown>
+###El core de jQuery
+
+-  $ vs $()
+Hasta ahora, se ha tratado completamente con métodos que se llaman desde el objeto jQuery. Por ejemplo:  
+
+		$('h1').remove();  
+
+estos métodos son parte del namespace $.fn, o del prototipo de jQuery, y son considerados como métodos del objeto jQuery.
+Sin embargo, existen métodos que son parte del espacio de nombres de $ y se consideran como métodos del core de jQuery.
+
+-  Los métodos utilizados en selecciones se encuentran dentro del espacio de nombres $.fn, y automáticamente reciben y devuelven una selección en sí.</section>
+<section data-markdown>  
+###El core de jQuery
+-  Métodos en el espacio de nombres $ son generalmente métodos para diferentes utilidades, no trabajan con selecciones, no se les pasa ningún argumento y el valor que devuelven puede variar.
+  
+  
+*  Existen algunos casos en donde métodos del objeto y del núcleo poseen los mismos nombres, como sucede con$.each y $.fn.each. 
+
+</section>
+<section data-markdown>
+
+###Métodos Utilitarios de $.
+[Lista completa](http://api.jquery.com/category/utilities/ "Documentación completa de los métodos")
+<pre><code class="javascript">
+$.trim
+//Remueve los espacios en blanco del principio y final.
+$.trim('    varios espacios en blanco   ');
+    // devuelve 'varios espacios en blanco'
+$.each
+//Interactúa en arreglos y objetos.
+$.each([ 'foo', 'bar', 'baz' ], function(idx, val) {
+        console.log('elemento ' + idx + 'es ' + val);
+    });    
+    $.each({ foo : 'bar', baz : 'bim' }, function(k, v) {
+        console.log(k + ' : ' + v);
+    });
+
+$.inArray
+Devuelve el índice de un valor en un arreglo, o -1 si el valor no se encuentra en el arreglo.
+var myArray = [ 1, 2, 3, 5 ];    
+    if ($.inArray(4, myArray) !== -1) {
+        console.log('valor encontrado');
+    }
+</code></pre>
+</section>
+<section data-markdown>
+
+$.extend
+Cambia la propiedades del primer objeto utilizando las propiedades de los subsecuentes objetos.
+
+	var firstObject = { foo : 'bar', a : 'b' };
+    var secondObject = { foo : 'baz' };    
+    var newObject = $.extend(firstObject, secondObject);
+    console.log(firstObject.foo); // 'baz'
+    console.log(newObject.foo);   // 'baz'
+
+Si no se desea cambiar las propiedades de ninguno de los objetos que se utilizan en $.extend, se debe incluir un objeto vacío como primer argumento.
+
+	var firstObject = { foo : 'bar', a : 'b' };
+    var secondObject = { foo : 'baz' };
+    var newObject = $.extend({}, firstObject, secondObject);
+    console.log(firstObject.foo); // 'bar'
+    console.log(newObject.foo);   // 'baz'
+</section>
+<section data-markdown>
+
+$.proxy
+Devuelve una función que siempre se ejecutará en el alcance (scope) provisto — en otras palabras, establece el significado de this (incluido dentro de la función) como el segundo argumento.
+	
+	var myFunction = function() { console.log(this); };
+    var myObject = { foo : 'bar' };
+    myFunction(); // devuelve el objeto window    
+    var myProxyFunction = $.proxy(myFunction, myObject);
+    myProxyFunction(); // devuelve el objeto myObject
+</section>
+<section data-markdown>
+Si se posee un objeto con métodos, es posible pasar dicho objeto y el nombre de un método para devolver una función que siempre se ejecuta en el alcance de dicho objeto.
+	
+	var myObject = {
+        myFn : function() {
+            console.log(this);
+        }
+    };    
+    $('#foo').click(myObject.myFn); // registra el elemento DOM #foo
+    $('#foo').click($.proxy(myObject, 'myFn')); // registra myObject
+
+</section>
+<section data-markdown>
+
+###Comprobación de Tipos
+
+jQuery ofrece varios métodos útiles para determinar el tipo de un valor específico.
+Comprobar el tipo de un determinado valor
+	
+	var myValue = [1, 2, 3];    
+    // Utilizar el operador typeof de JavaScript para comprobar tipos primitivos
+    typeof myValue == 'string'; // falso (false)
+    typeof myValue == 'number'; // falso (false)
+    typeof myValue == 'undefined'; // falso (false)
+    typeof myValue == 'boolean'; // falso (false)
+    // Utilizar el operador de igualdad estricta para comprobar valores nulos (null)
+    myValue === null; // falso (false)
+    // Utilizar los métodos jQuery para comprobar tipos no primitivos
+    jQuery.isFunction(myValue); // falso (false)
+    jQuery.isPlainObject(myValue); // falso (false)
+    jQuery.isArray(myValue); // verdadero (true)
+    jQuery.isNumeric(16); // verdadero (true). No disponible en versiones inferiores a jQuery 1.7
+</section>
+<section data-markdown>
+
+###El Método Data
+
+A menudo encontrará que existe información acerca de un elemento que necesita guardar. En JavaScript es posible hacerlo añadiendo propiedades al DOM del elemento, pero esta práctica conlleva enfrentarse a memory leaks en algunos navegadores.
+
+	//Guardar y recuperar información relacionada a un elemento
+	$('#myDiv').data('keyName', { foo : 'bar' });
+    $('#myDiv').data('keyName'); // { foo : 'bar' }
+
+</section>
+<section data-markdown>
+
+Establecer una relación entre elementos utilizando el método $.fn.data
+	
+	$('#myList li').each(function() {
+        var $li = $(this), $div = $li.find('div.content');
+        $li.data('contentDiv', $div);
+    });    
+    // luego, no se debe volver a buscar al div;
+    // es posible leerlo desde la información asociada al item de la lista
+    var $firstLi = $('#myList li:first');
+    $firstLi.data('contentDiv').html('nuevo contenido');
+</section>
+<section data-markdown>
+
+Además es posible pasarle al método un objeto conteniendo uno o más pares de conjuntos palabra clave-valor.
+A partir de la versión 1.5 de la biblioteca, jQuery permite utilizar al método $.fn.data para obtener la información asociada a un elemento que posea el atributo HTML5 data-*:
+Elementos con el atributo data-*
+
+	<a id='foo' data-foo='baz' href='#'>Foo</a>    
+    <a id='foobar' data-foo-bar='fol' href='#'>Foo Bar</a>
+
+</section>
+<section data-markdown>
+
+Obtener los valores asociados a los atributos data-* con $.fn.data
+
+	// obtiene el valor del atributo data-foo
+    // utilizando el método $.fn.data
+    console.log($('#foo').data('foo')); // registra 'baz'
+    // obtiene el valor del segundo elemento
+    console.log($('#foobar').data('fooBar')); // registra 'fol' 
+
+Más información sobre el atributo[HTML5 data-*](http://www.w3.org/TR/html5/global-attributes.html#embedding-custom-non-visible-data-with-the-data-attributes "Definición completa ")
+
+</section>
+<section data-markdown>
+
+###Detección de Navegadores y Características
+
+jQuery ofrece los objetos [$.support](http://api.jquery.com/jQuery.support/ "Documentación ") y 
+[$.browser](http://api.jquery.com/jQuery.browser/ "Documentación ")
+ ( en desuso). 
+
+
+ 
+
+El objetivo de $.support es determinar qué características soporta el navegador web.
+El objeto $.browser permite detectar el tipo de navegador y su versión. 
+
+</section>
+<section data-markdown>
+
+###Poner a jQuery en modo no-conflicto
+
+		<script src="prototype.js"></script>// la biblioteca prototype también utiliza $
+		<script src="jquery.js"></script>// se carga jquery en la página
+		<script>var $j = jQuery.noConflict();</script>// se inicializa el modo "no-conflicto"
+
+También es posible seguir utilizando $ conteniendo el código en una función anónima autoejecutable. Éste es un patrón estándar para la creación de extensiones para la biblioteca, ya que $ queda encerrada dentro del alcance de la misma función anónima.
+</section>
+<section data-markdown>
+###Utilizar $ dentro de una función anónima autoejecutable
+
+		<script src="prototype.js"></script>
+		<script src="jquery.js"></script>
+		<script>
+			jQuery.noConflict();    
+			(function($) {
+				// el código va aquí, pudiendo utilizar $
+			})(jQuery);
+		</script>
+
+</section>
+<section data-markdown>
+
+
+###Eventos
+	
+		//Vincular un evento utilizando un método reducido
+		$('p').click(function() {
+			console.log('click');
+		 });
+		//Vincular un evento utilizando el método $.fn.on
+		$('p').on('click', function() {
+			console.log('click');
+		 });
+		//Vincular un evento utilizando el método $.fn.on con información asociada
+		$('input').on(
+			'click blur',// es posible vincular múltiples eventos al elemento
+			{ foo : 'bar' }, // se debe pasar la información asociada como argumento
+		function(eventObject) {
+			 console.log(eventObject.type, eventObject.data);
+		// registra el tipo de evento y la información asociada { foo : 'bar' }
+		}
+		 );
+
+</section>
+<section data-markdown>
+
+###Vincular Eventos para Ejecutar una vez
+
+$.fn.one.
+Cambiar controladores utilizando el método $.fn.one
+	
+	$('p').one('click', function() {
+        console.log('Se clickeó al elemento por primera vez');
+        $(this).click(function() { 
+        	console.log('Se ha clickeado nuevamente'); });
+    });
+
+</section>
+<section data-markdown>
+###Desvincular Eventos
+
+$.fn.off 
+
+	$('p').off('click');
+	//Desvincular un controlador particular del evento click
+	var foo = function() { console.log('foo'); };
+	    var bar = function() { console.log('bar'); };
+	    $('p').on('click', foo).on('click', bar);
+	    $('p').off('click', bar); // foo esta atado aún al evento click
+	//Asignar espacios de nombres a eventos
+	$('p').on('click.myNamespace', function() { /* ... */ });
+	    $('p').off('click.myNamespace');
+	    $('p').off('.myNamespace'); // desvincula todos los eventos con
+	                                // el espacio de nombre 'myNamespace'
+
+</section>
+<section data-markdown>
+
+###Vinculación de Múltiples Eventos
+
+
+	$('p').on({
+        'click': function() { 
+            console.log('clickeado'); 
+        },
+        'mouseover': function() { 
+            console.log('sobrepasado'); 
+        }
+    });
+
+</section>
+<section data-markdown>
+
+###El Objeto Evento
+propiedades y métodos útiles
+
+-  pageX, pageY: 
+La posición del puntero en el momento que el evento ocurrió, relativo a las zonas superiores e izquierda de la página.
+
+-  type: 
+El tipo de evento (por ejemplo “click”).
+
+-  which: 
+El botón o tecla presionada.
+
+-  data: 
+Alguna información pasada cuando el evento es ejecutado.
+
+</section>
+<section data-markdown>
+
+-  target: El elemento DOM que inicializó el evento.
+
+-  preventDefault(): Cancela la acción predeterminada del evento (por ejemplo: seguir un enlace).
+
+-  stopPropagation(): evitar la propagación de un evento
+
+		var $this = $(this);
+		//acceso a this con funcionalidad jquery  
+		$('a').click(function(e) {
+			var $this = $(this);
+			if ($this.attr('href').match('evil')) {
+				e.preventDefault(); //Cancelar que al hacer click
+				// en un link éste se siga propagando
+				$this.addClass('evil');
+			}
+		});
+
+</section>
+<section data-markdown>
+
+###Efectos visuales
+más utilizados:
+
+	$.fn.show //Muestra el elemento seleccionado.
+	$.fn.hide //Oculta el elemento seleccionado.
+	$.fn.fadeIn //De forma animada, cambia la opacidad del elemento seleccionado al 100%.
+	$.fn.fadeOut //De forma animada, cambia la opacidad del elemento seleccionado al 0
+	$.fn.slideDown //Muestra el elemento seleccionado con un movimiento de deslizamiento vertical.
+	$.fn.slideUp //Oculta el elemento seleccionado con un movimiento de deslizamiento vertical.
+	$.fn.slideToggle //Muestra o oculta el elemento seleccionado con un movimiento de deslizamiento vertical, dependiendo si actualmente el elemento está visible o no.
+</section>
+<section data-markdown>
+###Cambiar la Duración de los Efectos
+Con la excepción de $.fn.show y $.fn.hide, todos los métodos tienen una duración predeterminada de la animación en 400ms. 
+
+		//Configurar la duración de un efecto
+		$('h1').fadeIn(300);      // desvanecimiento en 300ms
+		$('h1').fadeOut('slow');  // utilizar una definición de velocidad interna
+		//Ejecutar cierto código cuando una animación haya concluido
+		$('div.old').fadeOut(300, function() { $(this).remove(); });
+
+si la selección no retorna ningún elemento, la función nunca se ejecutará. 
+</section>
+<section data-markdown>
+Ejecutar una función de devolución incluso si no hay elementos para animar  
+
+		var $thing = $('#nonexistent');  
+		var cb = function() {
+			console.log('realizado');
+		};    
+		if ($thing.length) {
+			$thing.fadeIn(300, cb);
+		} else {
+			cb();
+		}
+</section>
+<section data-markdown>
+
+###Efectos personalizados con $.fn.animate
+	$('div.funtimes').animate(
+        {
+            left : "+=50",
+            opacity : 0.25
+        },
+        300, // duration
+        function() { console.log('realizado'); // función de devolución de llamada
+    });
+Nota
+Las propiedades relacionadas al color no pueden ser animadas utilizando el método $.fn.animate, pero es posible hacerlo a través del plugin color 
+</section>
+<section data-markdown>
+### Easing
+[Definición: El concepto de Easing describe la manera en que un efecto ocurre — es decir, si la velocidad durante la animación es constante o no.] 
+
+-  Métodos de easing: swing y linear. Existen plugins con más opciones.
+A partir de la versión 1.4, es posible establecer el tipo de transición por cada propiedad
+
+
+		//Transición de easing por cada propiedad
+		$('div.funtimes').animate(
+			{
+				left : [ "+=50", "swing" ],
+				opacity : [ 0.25, "linear" ]
+			},
+		300
+		);
+
+Más detalles sobre las opciones de [easing](http://api.jquery.com/animate/ "Definición completa ") 
+</section>
+<section data-markdown>
+#Ajax
+</section>
+<section data-markdown>
+##Introducción
+
+A través de varios métodos, jQuery provee soporte para Ajax, permitiendo abstraer las diferencias que pueden existir entre navegadores. 
+
+###$.get(), $.getScript(), $.getJSON(),$.post() y $().load().
+
+En general, Ajax no trabaja a través de dominios diferentes. Sin embargo, existen excepciones, como los servicios que proveen información en formato JSONP (JSON with Padding), los cuales permiten una funcionalidad limitada a través de diferentes dominios.
+
+</section>
+<section data-markdown>
+### Conceptos Clave
+
+####GET vs. POST
+
+El método GET debe ser utilizado para operaciones no-destructivas — es decir, operaciones en donde se esta “obteniendo” datos del servidor, pero no modificando. 
+
+Las solicitudes GET pueden ser almacenadas en la cache del navegador, pudiendo conducir a un comportamiento impredecible si no se lo espera. Generalmente, la información enviada al servidor, es enviada en una cadena de datos (en inglés query string).
+</section>
+<section data-markdown>
+### Conceptos Clave
+
+####GET vs. POST
+
+El método POST debe ser utilizado para operaciones en donde se está incorporando información al servidor. 
+
+No se guarda en la cache del navegador. Además, una cadena de datos puede ser parte de la URL, pero la información tiende a ser enviada de forma separada.
+</section>
+<section data-markdown>
+###Tipos de Datos
+Generalmente, jQuery necesita algunas instrucciones sobre el tipo de información que se espera recibir cuando se realiza una petición Ajax. En algunos casos, el tipo de dato es especificado por el nombre del método, pero en otros casos se lo debe detallar como parte de la configuración del método:
+
+-  text
+
+-  html
+
+-  script
+Para añadir un nuevo script con código JavaScript a la página.
+</section>
+<section data-markdown>
+	###Tipos de Datos
+-  json
+Para transportar información en formato JSON, el cual puede incluir cadenas de caracteres, arreglos y objetos.
+
+A partir de la versión 1.4 de la biblioteca, si la información JSON no está correctamente formateada, la petición podría fallar. 
+
+-  jsonp
+Para transportar información JSON de un dominio a otro.
+
+-  xml
+Para transportar información en formato XML.
+</section>
+<section data-markdown>
+
+###Asincronismo
+Debido a que, de forma predeterminada, las llamadas Ajax son asíncronas, la respuesta del servidor no esta disponible de forma inmediata. Por ejemplo, el siguiente código no debería funcionar:
+	
+	var response;
+    $.get('foo.php', function(r) { response = r; });
+    console.log(response); // indefinido (undefined)
+</section>
+<section data-markdown>
+
+###Asincronismo
+En su lugar, es necesario especificar una función de devolución de llamada; dicha función se ejecutará cuando la petición se haya realizado de forma correcta ya que es en ese momento cuando la respuesta del servidor esta lista.
+
+	$.get('foo.php', function(response) { 
+		console.log(response); 
+	});
+
+</section>
+<section data-markdown>
+### Políticas de Mismo Origen y JSONP
+
+-  En general, las peticiones Ajax están limitadas a utilizar el mismo protocolo (http o https), el mismo puerto y el mismo dominio de origen. Esta limitación no se aplica a los scripts cargados a través del método Ajax de jQuery.  
+
+-  La otra excepción es cuando se hace una petición que recibirá una respuesta en formato JSONP. En este caso, el proveedor de la respuesta debe responder la petición con un script que puede ser cargado utilizando la etiqueta ` script`, evitando así la limitación de realizar peticiones desde el mismo dominio. Dicha respuesta contendrá la información solicitada, contenida en una función
+
+</section>
+<section data-markdown>
+
+### $.ajax
+El método $.ajax es configurado a través de un objeto, el cual contiene todas las instrucciones que necesita jQuery para completar la petición. 
+permite especificar acciones en caso que la petición haya fallado o no. 
+
+[Definición completa](http://api.jquery.com/jQuery.ajax/ "Definición completa ")
+ 
+</section>
+<section data-markdown>
+
+		//Utilizar el método $.ajax
+		$.ajax({
+			// la URL para la petición
+			url : 'post.php',
+			// la información a enviar
+			// (también es posible utilizar una cadena de datos)
+			data : { id : 123 },
+			// especifica si será una petición POST o GET
+			type : 'GET',
+			// el tipo de información que se espera de respuesta
+			dataType : 'json',
+			// código a ejecutar si la petición es satisfactoria;
+			// la respuesta es pasada como argumento a la función
+			success : function(json) {
+				$('<h1/>').text(json.title).appendTo('body');
+				$('<div class="content"/>')
+				.html(json.html).appendTo('body');
+			},
+				// código a ejecutar si la petición falla;
+				// son pasados como argumentos a la función
+				// el objeto jqXHR (extensión de XMLHttpRequest), un texto con el estatus
+				// de la petición y un texto con la descripción del error que haya dado el servidor
+</section>
+<section data-markdown>
+###(CONT)
+
+			error : function(jqXHR, status, error) {
+				alert('Disculpe, existió un problema');
+			},
+				// código a ejecutar sin importar si la petición falló o no
+			complete : function(jqXHR, status) {
+				alert('Petición realizada');
+			}
+		});
+
+    </section>
+<section data-markdown data-state="alert">
+###Nota
+Una aclaración sobre el parámetro dataType: Si el servidor devuelve información que es diferente al formato especificado, el código fallará, y la razón de porque lo hace no siempre quedará clara debido a que la respuesta HTTP no mostrará ningún tipo de error. 
+</section>
+<section data-markdown>
+### Opciones del método $.ajax
+
+Las más comunes:  
+
+-  async
+Establece si la petición será asíncrona o no. De forma predeterminada el valor es true. si la opción se establece en false, la petición bloqueará la ejecución de otros códigos hasta que dicha petición haya finalizado.
+
+-  cache
+Establece si la petición será guardada en la cache del navegador. De forma predeterminada es true para todos los dataType excepto para “script” y “jsonp”. Cuando posee el valor false, se agrega una cadena de caracteres anti-cache al final de la URL de la petición.
+</section>
+<section data-markdown>
+### Opciones del método $.ajax
+-  complete
+Establece una función de devolución de llamada que se ejecuta cuando la petición esta completa, aunque haya fallado o no. La función recibe como argumentos el objeto jqXHR (en versiones anteriores o iguales a jQuery 1.4, recibe en su lugar el objeto de la petición en crudo XMLHTTPRequest) y un texto especificando el estatus de la misma petición (success, notmodified, error, timeout, abort, o parsererror).
+
+-  context
+Establece el alcance en que la/las funciones de devolución de llamada se ejecutaran (por ejemplo, define el significado de this dentro de las funciones). De manera predeterminada this hace referencia al objeto originalmente pasado al método $.ajax.
+
+</section>
+<section data-markdown>
+### Opciones del método $.ajax
+-  data
+Establece la información que se enviará al servidor. Esta puede ser tanto un objeto como una cadena de datos (por ejemplo foo=bar&baz=bim.)
+
+-  dataType
+Establece el tipo de información que se espera recibir como respuesta del servidor. Si no se especifica ningún valor, de forma predeterminada, jQuery revisa el tipo de MIME que posee la respuesta.
+</section>
+<section data-markdown>
+### Opciones del método $.ajax
+-  error
+Establece una función de devolución de llamada a ejecutar si resulta algún error en la petición. Dicha función recibe como argumentos el objeto jqXHR (en versiones anteriores o iguales a jQuery 1.4, recibe en su lugar el objeto de la petición en crudo XMLHTTPRequest), un texto especificando el estatus de la misma petición (timeout, error, abort, o parsererror) y un texto con la descripción del error que haya enviado el servidor (por ejemplo Not Found o Internal Server Error).
+</section>
+<section data-markdown>
+### Opciones del método $.ajax
+-  jsonp
+Establece el nombre de la función de devolución de llamada a enviar cuando se realiza una petición JSONP. De forma predeterminada el nombre es "callback
+
+-  success
+Establece una función a ejecutar si la petición a sido satisfactoria. Dicha función recibe como argumentos el objeto jqXHR (en versiones anteriores o iguales a jQuery 1.4, recibe en su lugar el objeto de la petición en crudo XMLHTTPRequest), un texto especificando el estatus de la misma petición y la información de la petición (convertida a objeto JavaScript en el caso que dataType sea JSON), el estatus de la misma.
+</section>
+<section data-markdown>
+### Opciones del método $.ajax
+-  timeout
+Establece un tiempo en milisegundos para considerar a una petición como fallada.
+
+-  traditional
+Si su valor es true, se utiliza el estilo de serialización de datos utilizado antes de jQuery 1.4. Para más detalles puede visitar http://api.jquery.com/jQuery.param/.
+
+-  type
+De forma predeterminada su valor es “GET”. Otros tipos de peticiones también pueden ser utilizadas (como PUT y DELETE), sin embargo pueden no estar soportados por todos los navegadores.
+</section>
+<section data-markdown>
+### Opciones del método $.ajax
+-  url
+Establece la URL en donde se realiza la petición.
+La opción url es obligatoria para el método $.ajax;
+</section>
+<section data-markdown data-state="alert">
+### Nota
+A partir de la versión 1.5 de jQuery, las opciones beforeSend, success, error y complete reciben como uno de sus argumentos el objeto jqXHR siendo este una extensión del objeto nativoXMLHTTPRequest. El objeto jqXHR posee una serie de métodos y propiedades que permiten modificar u obtener información particular de la petición a realizar, como por ejemplo sobreescribir el tipo de MIMEque posee la respuesta que se espera por parte del servidor. Para información sobre el objeto jqXHRpuede consultar http://api.jquery.com/jQuery.ajax/#jqXHR.
+
+A partir de la versión 1.5 de jQuery, las opciones success, error y complete pueden recibir un arreglo con varias funciones de devolución, las cuales serán ejecutadas en turnos.
+</section>
+<section data-markdown>
+
+### Métodos Convenientes
+
+-  $.get
+Realiza una petición GET a una URL provista.
+-  $.post
+Realiza una petición POST a una URL provista.
+-  $.getScript
+Añade un script a la página.
+-  $.getJSON
+Realiza una petición GET a una URL provista y espera que un dato JSON sea devuelto.
+</section>
+<section data-markdown>
+Los métodos deben tener los siguientes argumentos, en orden:
+
+-  url  
+-  data Esta opción no es valida para el método $.getScript.
+-  success callback  
+-  data type  
+
+Nota
+Esta opción es solo aplicable para métodos en que no está especificado el tipo de dato en el nombre del mismo método.
+
+</section>
+<section data-markdown>
+
+	// obtiene texto plano o html
+	$.get('/users.php', { userId : 1234 }, function(resp) {
+		console.log(resp);
+	});
+	// añade un script a la página y luego ejecuta la función especificada
+		$.getScript('/static/js/myScript.js', function() {
+	functionFromMyScript();
+	});
+
+	// obtiene información en formato JSON desde el servidor
+	$.getJSON('/details.php', function(resp) {
+	$.each(resp, function(k, v) {
+			console.log(k + ' : ' + v);
+		});
+	});
+ </section>
+<section data-markdown>
+### $.fn.load
+El método $.fn.load es el único que se puede llamar desde una selección. Dicho método obtiene el código HTML de una URL y rellena a los elementos seleccionados con la información obtenida. En conjunto con la URL, es posible especificar opcionalmente un selector, el cual obtendrá el código especificado en dicha selección.
+
+	//Uilizar el método $.fn.load para rellenar un elemento
+	$('#newContent').load('/foo.html');
+	//Utilizar el método $.fn.load para rellenar un elemento basado en un selector
+	$('#newContent').load('/foo.html #myDiv h1:first', function(html) {
+	alert('Contenido actualizado');
+	});
+
+</section>
+<section data-markdown>
+
+###Ajax y Formularios
+
+jQuery Form Plugin es una extensión para añadir capacidades Ajax a formularios. Existen dos métodos que debe conocer para cuando este realizando este tipo de trabajos: $.fn.serialize y$.fn.serializeArray.
+
+	//Transformar información de un formulario a una cadena de datos
+	$('#myForm').serialize();
+	Crear un arreglo de objetos conteniendo información de un formulario
+	$('#myForm').serializeArray();
+	    // crea una estructura como esta:
+	    [        { name : 'field1', value : 123 },{ name : 'field2', value : 'hello world' } ]
+</section>
+<section data-markdown>
+###Trabajar con JSONP
+JSONP esta orientado la creación de aplicaciones híbridas de contenidos. Muchos sitios importantes ofrecen JSONP como servicio de información, el cual se accede a través de una API.
+POR EJ Yahoo! Query Language:
+
+</section>
+<section data-markdown>
+
+	//UTilizar YQL y JSONP
+	$.ajax({
+		url : 'http://query.yahooapis.com/v1/public/yql',
+		// se agrega como parámetro el nombre de la función de devolución,
+		// según se especifica en el servicio de YQL
+		jsonp : 'callback',
+		// se le indica a jQuery que se espera información en formato JSONP
+		dataType : 'jsonp',
+		// se le indica al servicio de YQL cual es la información
+		// que se desea y que se la quiere en formato JSON
+		data : {
+			q : 'select title,abstract,url from search.news where query="cat"',
+			format : 'json'
+		},
+	// se ejecuta una función al ser satisfactoria la petición
+		success : function(response) {
+	    	console.log(response);
+		}
+	});
+</section>
+<section data-markdown>
+Lo único que debe hacerse es especificar el nombre de la función de devolución (en este caso “callback”, según lo especifica YQL) y el resultado final será como una petición Ajax normal.
+</section>
+<section data-markdown>
+### Eventos Ajax
+http://docs.jquery.com/Ajax_Events.
+
+mas usados ajaxStart y ajaxStop: 
+
+	//Mostrar/Ocultar un indicador utilizando Eventos Ajax
+	$('#loading_indicator')
+		.ajaxStart(function() { $(this).show(); })
+		.ajaxStop(function() { $(this).hide(); });
+
+</section>
+
+				<section>
+					
+					<h3>¿Preguntas?</h3>
+					<span>
+					<img src="textures/email5.gif" style="height: 1em;float:none">facundo.a.ferrero@accenture.com
+				</span>
+				<br/>
+				<span>
+				<img src="textures/twitter.png"style="height: 1em;float:none">@facundo_ferrero
+				</span>
+				<br/><br/>
+				<h4>Bibliografía:</h4>
+				<div><a href="http://jqfundamentals.com/book/">JQuery fundamentals</a>- Rebecca Murphey</div>
+				<br> 
+				<div>Traducción a Castellano: <a href="http://librojquery.com/">librojquery.com</a></div>
+				<div>Fuentes del libro: <a href="http://github.com/rmurphey/jqfundamentals">(Github)</a></div>
+				</section>
+			</div>
+
+			<!-- The navigational controls UI -->
+			<aside class="controls">
+				<a class="left" href="#">&#x25C4;</a>
+				<a class="right" href="#">&#x25BA;</a>
+				<a class="up" href="#">&#x25B2;</a>
+				<a class="down" href="#">&#x25BC;</a>
+			</aside>
+
+			<!-- Presentation progress bar -->
+			<div class="progress"><span></span></div>
+			
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				
+				theme: Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+					{ src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+				]
+			});
+			
+		</script>
+
+
+		<script src="js/three.min.js"></script>
+		<script src="js/loaders/OBJLoader.js"></script>
+
+		<script>
+
+			var camera, cubeCamera, scene, renderer;
+			var cube, sphere, torus;
+
+			var fov = 70,
+			isUserInteracting = false,
+			onMouseDownMouseX = 0, onMouseDownMouseY = 0,
+			lon = 0, onMouseDownLon = 0,
+			lat = 0, onMouseDownLat = 0,
+			phi = 0, theta = 0;
+
+			var texture = THREE.ImageUtils.loadTexture( 'textures/logoBlackBig.jpg', new THREE.UVMapping(), function () {
+
+				init();
+				animate();
+
+			} );
+
+			function init() {
+
+				camera = new THREE.PerspectiveCamera( fov, window.innerWidth / window.innerHeight, 1, 1000 );
+
+				scene = new THREE.Scene();
+
+				var mesh = new THREE.Mesh( new THREE.SphereGeometry( 500, 60, 40 ), new THREE.MeshBasicMaterial( { map: texture } ) );
+				mesh.scale.x = -1;
+				scene.add( mesh );
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				cubeCamera = new THREE.CubeCamera( 1, 1000, 256 );
+				cubeCamera.renderTarget.minFilter = THREE.LinearMipMapLinearFilter;
+				scene.add( cubeCamera );
+
+				document.body.appendChild( renderer.domElement );
+
+				//
+
+				var material = new THREE.MeshBasicMaterial( { envMap: cubeCamera.renderTarget } );
+
+				sphere = new THREE.Mesh( new THREE.SphereGeometry( 20, 60, 40 ), material );
+				scene.add( sphere );
+
+				/*cube = new THREE.Mesh( new THREE.CubeGeometry( 20, 20, 20 ), material );
+				scene.add( cube );*/
+
+
+				var loader = new THREE.JSONLoader();
+
+				loader.load( "test logo.js", function(geo) { 
+				
+
+					torus = new THREE.Mesh(geo, material );
+					torus.scale.x=3;
+					torus.scale.y=3;
+					torus.scale.z=3;
+					scene.add( torus );
+
+					}
+					);
+
+				var loader2 = new THREE.OBJLoader();
+
+				loader2.addEventListener( 'load', function ( event ) {
+
+					cube = event.content;
+
+					cube.scale.x=40;
+					cube.scale.y=40;
+					cube.scale.z=40;
+
+					for ( var i = 0, l = cube.children.length; i < l; i ++ ) {
+						cube.children[i].material = material;
+					};
+
+					scene.add(cube);
+
+				});
+				loader2.load( '$.obj' );
+
+
+
+				
+
+				//
+
+				document.addEventListener( 'mousedown', onDocumentMouseDown, true );
+				document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
+				document.addEventListener( 'DOMMouseScroll', onDocumentMouseWheel, false);
+				window.addEventListener( 'resize', onWindowResized, false );
+
+				onWindowResized( null );
+
+			}
+
+			function onWindowResized( event ) {
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				camera.projectionMatrix.makePerspective( fov, window.innerWidth / window.innerHeight, 1, 1100 );
+			}
+
+			function onDocumentMouseDown( event ) {
+
+				event.preventDefault();
+
+				onPointerDownPointerX = event.clientX;
+				onPointerDownPointerY = event.clientY;
+
+				onPointerDownLon = lon;
+				onPointerDownLat = lat;
+
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+
+			}
+
+			function onDocumentMouseMove( event ) {
+
+				lon = ( event.clientX - onPointerDownPointerX ) * 0.1 + onPointerDownLon;
+				lat = ( event.clientY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
+
+			}
+
+			function onDocumentMouseUp( event ) {
+
+				document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
+
+			}
+
+			function onDocumentMouseWheel( event ) {
+
+				// WebKit
+
+				if ( event.wheelDeltaY ) {
+
+					fov -= event.wheelDeltaY * 0.05;
+
+				// Opera / Explorer 9
+
+				} else if ( event.wheelDelta ) {
+
+					fov -= event.wheelDelta * 0.05;
+
+				// Firefox
+
+				} else if ( event.detail ) {
+
+					fov += event.detail * 1.0;
+
+				}
+
+				camera.projectionMatrix.makePerspective( fov, window.innerWidth / window.innerHeight, 1, 1100 );
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				render();
+
+			}
+
+			function render() {
+
+				var time = Date.now();
+
+				lon += .15;
+
+				lat = Math.max( - 85, Math.min( 85, lat ) );
+				phi = ( 90 - lat ) * Math.PI / 180;
+				theta = lon * Math.PI / 180;
+
+				sphere.position.x = Math.sin( time * 0.001 ) * 30;
+				sphere.position.y = Math.sin( time * 0.0011 ) * 30;
+				sphere.position.z = Math.sin( time * 0.0012 ) * 30;
+
+				sphere.rotation.x += 0.02;
+				sphere.rotation.y += 0.03;
+
+				cube.position.x = Math.sin( time * 0.001 + 2 ) * 30;
+				cube.position.y = Math.sin( time * 0.0011 + 2 ) * 30;
+				cube.position.z = Math.sin( time * 0.0012 + 2 ) * 30;
+
+				cube.rotation.x += 0.02;
+				cube.rotation.y += 0.03;
+
+				torus.position.x = Math.sin( time * 0.001 + 4 ) * 30;
+				torus.position.y = Math.sin( time * 0.0011 + 4 ) * 30;
+				torus.position.z = Math.sin( time * 0.0012 + 4 ) * 30;
+
+				torus.rotation.x += 0.02;
+				torus.rotation.y += 0.03;
+
+				camera.position.x = 100 * Math.sin( phi ) * Math.cos( theta );
+				camera.position.y = 100 * Math.cos( phi );
+				camera.position.z = 100 * Math.sin( phi ) * Math.sin( theta );
+
+				camera.lookAt( scene.position );
+
+				sphere.visible = false; // *cough*
+
+				cubeCamera.updateCubeMap( renderer, scene );
+
+				sphere.visible = true; // *cough*
+
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+
+	</body>
+</html>
