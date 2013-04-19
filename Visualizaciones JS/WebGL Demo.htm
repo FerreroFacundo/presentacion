@@ -1,0 +1,38 @@
+
+<!-- saved from url=(0052)https://developer.mozilla.org/samples/webgl/sample2/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>WebGL Demo</title>
+    
+    <link rel="stylesheet" href="./WebGL Demo_files/webgl.css" type="text/css">
+    <script src="./WebGL Demo_files/sylvester.js" type="text/javascript"></script>
+    <script src="./WebGL Demo_files/glUtils.js" type="text/javascript"></script>
+    <script src="./WebGL Demo_files/webgl-demo.js" type="text/javascript"></script>
+
+    <!-- Fragment shader program -->
+
+    <script id="shader-fs" type="x-shader/x-fragment">
+        void main(void) {
+            gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+        }
+    </script>
+    
+    <!-- Vertex shader program -->
+    
+    <script id="shader-vs" type="x-shader/x-vertex">
+      attribute vec3 aVertexPosition;
+    
+      uniform mat4 uMVMatrix;
+      uniform mat4 uPMatrix;
+    
+      void main(void) {
+        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+      }
+    </script>
+  </head>
+  
+  <body onload="start()">
+    <canvas id="glcanvas" width="640" height="480">
+      Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
+    </canvas>
+  
+</body></html>
