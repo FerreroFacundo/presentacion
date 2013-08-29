@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Responsive Web Design</title>
+
+		<meta name="description" content="Webcam-based gesture recognition with reveal.js">
+		<meta name="author" content="William Wu (reveal.js by Hakim El Hattab)">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+    <script src="js/jquery-1.9.1.js"></script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+    <style type="text/css">
+    *{
+      color:white;
+      text-shadow: 2px 1px #000000;
+    }
+    .reveal pre{
+      width: 100%;
+    }
+    h1,h2,h3,h4,h5,h5{
+      color:white !important;
+    }
+    body{
+      background: url('textures/gifs_06.gif') no-repeat #add9e4;
+      background-size: 100% 100%;      
+    }
+    a{
+      background:gray !important;
+    }
+
+    </style>
+  
+	</head>
+
+	<body >
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+        <SECTION data-markdown >
+            #Responsive Web Design
+
+
+            ###agosto 2013
+            
+        </SECTION>
+        <SECTION data-markdown>
+#Temario
+-   Media queries para adaptabilidad de sitios. 
+-   Tipos de media queries
+-   Uso de herramientas del navegador para debuggear.  
+-   Herramientas para blueprints/ diseño responsives. 
+-   Frameworks para modelado responsive. 
+-   Ejemplos de Herramientas para deteccion en el servidor
+        </SECTION>
+
+         <SECTION data-markdown >
+            ###1 Internet
+            ![1 web](./textures/real_web.jpg)
+        </SECTION>
+        <SECTION>
+          <SECTION data-markdown>
+          ![now1](./textures/glass-browser2.png)   
+
+          [Review](http://www.mobilexweb.com/blog/google-glass-browser-html5-responsive-web-design)
+        </SECTION>
+        <SECTION data-markdown>
+          ![now](./textures/glass-browser1-1024x882.png)
+        </SECTION>
+        <SECTION data-markdown>
+          #No sólo dispositivos...
+
+          
+          ...también contextos dentro de la página   
+
+
+          [Demo](http://localhost:81/experimentos/test.html)          
+        </SECTION>
+        </SECTION>
+        <SECTION >
+          <iframe src="http://m.9gag.com/" style="width:45%;position:absolute;height:100%;left:0;border:1px"></iframe>
+          <span style="top: 45%;position: absolute;left: 48%;">VS</span>
+          <iframe src="http://9gag.com/" style="width:45%;position:absolute;height:100%;right:0;border:1px"></iframe>
+        </SECTION>
+<section>
+        <SECTION data-markdown>
+#CSS - Media Queries
+-   Permite definir una visualización selectiva según la pantalla/viewport/media del dispositivo que está viendo el sitio 
+-   Si el dispositivo cumple la regla de estilo, se aplica (simplemente true o false) 
+-   Soporta conectores lógicos "and" "not" y "," (or) 
+
+</SECTION> 
+<SECTION data-markdown>
+##MEDIAS (dispositivos) EN HTML4:
+‘aural’, ‘braille’, ‘handheld’, ‘print’, ‘projection’, ‘screen’, ‘tty’, ‘tv’ 
+##MEDIAS CSS2:
+CSS2 define la misma lista, pero 
+‘aural’ es deprecado y agrega ‘embossed’, ‘speech’ y ‘all’
+</SECTION>
+<SECTION>
+  <h4>Ejemplo<h4>
+  <pre>
+          <code class="language-html">
+  &lt;link rel="stylesheet" type="text/css" media="screen" href="sans-serif.css"&gt;
+  &lt;link rel="stylesheet" type="text/css" media="print" href="serif.css"&gt;
+          </code></pre>
+          <br/>
+          dentro de la hoja de estilo, se puede definir un estilo selectivo para una pantalla
+          <br/>
+          <span style="text-align:left">
+          <pre>
+          <code class="language-css">
+  @media screen {
+    * { font-family: sans-serif }
+  }
+  
+  @media all and (min-width:500px) { … }
+  @media (min-width:500px) { … }  /*(Hacen lo mismo)*/
+          </code></pre>
+</SECTION>
+<section>
+        <div class="shape header">
+            <h4 class="titul">Media queries en Html5 y CSS3:</h4>
+          </div>
+          <div class="shape body" style="font-size:0.6em">
+          <span style="font-weight:bold">Es el mismo comportamiento, simplemente agrega más valores posibles</span>
+          <br/>
+          <ul>
+          <li>
+          width / height (con prefijos opcionales "min-" y "max-") aplicables a display/viewport
+          <br/>Example: media="screen and (min-width:500px)"
+          </li>
+          <li>
+          device-width/device-height("min-" y "max-") ancho/alto de PANTALLA/PAPEL.
+          <br/>Example: media="screen and (device-height:500px)"
+          </li>
+          <li>
+          orientation: "portrait" or "landscape"
+          <br/>Example: media="all and (orientation: landscape)"
+          </li>
+          <li>
+          aspect-ratio: ("min-" and "max-") Relación entre ancho y alto del display/viewport
+          <br/>Example: media="screen and (aspect-ratio:16/9)"
+          </li><li>
+          device-aspect-ratio: ("min-" and "max-") Ídem pero con la relación ancho/alto del dispositivo
+          </li>
+          </ul>
+          </div>
+</section>
+<section style="font-size:0.7em;color:black;display: block;">
+        <h5>CSS3 Media queries (cont)</h5>
+        <ul><li>
+          color: "min-" and "max-" :bits por color del display.
+          <br/>Example: media="screen and (color:3)"
+          </li>
+          <li>
+          color-index: ("min-" and "max-") número de colores que el dispositivo puede soportar.
+          </li>
+          <li>
+          monochrome: ("min-" and "max-") bits por pixel buffer monocromo.
+          <br/>Example: media="screen and (monochrome:2)"
+          </li>
+          <li>
+          resolution:(dpi or dpcm) ("min-" and "max-")densidad del display/papel.
+          <br/>Example: media="print and (resolution:300dpi)"
+          </li>
+          <li>
+          scan:("progressive" and "interlace") método de escaneo del display de tv
+          <br/>Example: media="tv and (scan:interlace)"
+          </li>
+          <li>
+          grid:("1" ó "0") si el dispositivo de salida es una grilla o mapa de bits
+          "1" para grid, and "0" cualquier otro.
+          <br/>Example: media="handheld and (grid:1)"
+          </li>
+          </ul>
+        </section>
+<SECTION >
+<h3>Útil y cómodo...no?</h3>
+<div class="fragment" >
+  <img src="textures/joker.gif">
+  <h1>...NO</h1>
+ </div>
+
+</SECTION>
+</section>
+<SECTION>
+<SECTION data-markdown>
+##Herramientas para debuggear
+-   Nativas del navegador
+-   plugins (montones y para todos gustos)
+[Ejemplo para demo](http://www.responsivewebdesign.co.uk/ "Demo")
+
+</SECTION>
+<section >
+<h3>Entonces... ya puedo hacer sitios responsive!!!</h3>
+<h2 class="fragment" >...y sí... </h2>
+<h3 class="fragment" >...pero... </h3>
+
+<img src="textures/maggie.gif" class="fragment" />
+</section>
+</SECTION>
+<SECTION>
+  <SECTION data-markdown>
+##Herramientas para blueprints/ diseño responsives
+![mock](textures/monos.gif)
+  </SECTION>
+  <section data-markdown>
+#Frameworks
+[Bootstrap](http://twitter.github.io/bootstrap/getting-started.html)
+  
+[Foundation](./foundation-4.2.3/)
+
+[Skeleton](http://www.getskeleton.com/)
+
+[html5kickstart](http://www.99lime.com/elements/)
+
+[html5boilerplate](http://html5boilerplate.com/)
+
+[responsify.it](http://responsify.it/)
+
+  </section>
+  <SECTION data-markdown>
+  #Herramientas
+
+[Ej de blueprint](http://tympanus.net/Blueprints/ResponsiveMultiColumnForm/)
+
+[webflow (beta, pero muy prometedor)](http://www.webflow.com/)
+[demo](http://playground.webflow.com/)
+
+[froont](http://froont.com)
+
+![FTW](textures/joker2.gif)
+  </SECTION>
+</section>
+<SECTION>
+<SECTION >
+<h1>Estrategia de diseño</h1>
+<h3 class="fragment">¿qué target tiene mi sitio?</h3>
+<img class="fragment" src="textures/designmockup.jpg">
+</SECTION>
+<SECTION data-markdown>
+##1° PROTOTIPAR
+####EL CONTENIDO ES LO MÁS IMPORTANTE!!!
+![design](./textures/6.jpg)
+
+[Casper](http://net.tutsplus.com/tutorials/javascript-ajax/responsive-screenshots-with-casper/) (herramienta para prototipar)
+</SECTION>
+<SECTION data-markdown>
+![design](./textures/pe.jpeg)
+</SECTION>
+<SECTION data-markdown>
+#Graceful degradation
+-   Desktop first
+-   Enfocado a los navegadores más potentes en los dispositivos más nuevos.  
+Ej
+
+-   HTML5 video ⇔ Object/SWF 
+-   WebGL ⇔ Canvas2D 
+-   Reemplazar una animación (por ej, canvas) con gif 
+</SECTION>
+<SECTION data-markdown>
+#Progressive enhancement
+-   Mobile first
+-   Enfocado a llegar a mayor cantidad de usuarios (evitar segmentación de mercado)
+-   Una buena estrategia es detectar qué soporta cada dispositivo y ofrecer características ascendentes (aplicable tambíen a GD)
+</SECTION>
+<section >
+<h2>cuál es la mejor estrategia?</h2>
+<span class="fragment">
+<img src="textures/strategy.gif" />
+<br/>
+....es muy artesanal
+</span>
+</section>
+</SECTION>
+<SECTION>
+<SECTION data-markdown>
+##Compatibilidad
+
+###¿como asegurarnos que nuestra estrategia de diseño va a funcionar?
+
+</SECTION>
+<SECTION>
+  <h3>si ya tengo mi prototipo diseñado... ¿que puede pasar?</h3>
+    <span class="fragment">Desktop: </span>
+      <span class="fragment"> IE</span>
+      <span class="fragment">
+      <span class="fragment highlight-red"> 6,7 y 8!</span>
+      </span>
+      <span class="fragment">
+      <span class="fragment highlight-blue"> 9, 10 soportan media queries </span>
+      </span>
+      <br/>
+      <span class="fragment">
+      <span class="fragment highlight-green"> 11 AUTOACTUALIZABLE (como chrome, FF opera,etc) </span>
+    </span>
+    <BR/>
+    <span class="fragment"> Mobile:</span>
+    <span class="fragment"> ANDROID BROWSER!!!</span>
+    <img src="textures/fightclub.gif" class="fragment"/>
+</SECTION>
+<SECTION data-markdown>
+#JS
+-   [can I use](http://caniuse.com/#feat=css-mediaqueries)
+####Detección
+-   [Modernizr](http://modernizr.com/)   
+Liviano, recomendado para 3g (OJO CON LO QUE SE DETECTA)  
+Simplemente se agrega un .JS   
+Se consulta por la feature que queremos agregar/testear
+</SECTION>
+<SECTION data-markdown>
+#JS
+####Polyfills/shims
+-   [Respond](https://github.com/scottjehl/Respond)
+Intenta completar elementos que no están presentes de un navegador   
+Balanceado, pero puede agregar elementos que no voy a usar
+
+-   [Masonry](http://masonry.desandro.com/)
+orientado al diseño de página (Muy MUY completo)
+
+-   [Polyfills recomendados por Modernizr](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills)
+
+</SECTION>
+<SECTION>
+<h3>Modernizr</h3>
+con la misma noción de las media queries
+<pre>
+<code class="javascript">
+/*COMO UN EVENTO ASOCIADO AL CARGAR*/
+
+Modernizr.load({
+  test: Modernizr.geolocation,
+  yep : 'geo.js',
+  nope: 'geo-polyfill.js'
+});
+
+/*COMO CONDICIONAL EXPLICITO*/
+
+if (Modernizr.geolocation) {
+  //magia
+}
+</code>
+</pre>
+</SECTION>
+</SECTION>
+<SECTION>
+<section>
+<h2>Detección en el servidor</h2>
+<span class="fragment">
+  <img src="textures/clint.gif">
+  <br/>
+  Es bueno, malo y también feo
+</span>
+
+</section>
+<SECTION data-markdown>
+##Cómo?
+
+Detección mediante User Agent 
+
+Comunidad que mantiene un repositorio/BBDD con características de dispositivos   
+
+Se agrega un string a la configuración o código que se conecta al repositorio   
+
+Hay implementaciones online o repositorios locales estáticos actualizables
+</SECTION>
+<SECTION data-markdown>
+#Frameworks
+
+[Deviceatlas](https://deviceatlas.com/)
+
+[WURFL](http://www.scientiamobile.com/)
+
+[51 Degrees](http://51degrees.mobi/)
+
+[Apache mobile filter](http://www.apachemobilefilter.org/)
+
+</SECTION>
+<SECTION data-markdown>
+#Detecciones
+####Básicas
+-   Navegador
+-   es mobile
+-   es tablet
+-   es touch
+
+####Avanzadas/específicas
+-  soporta SVG
+-  version de HTML
+-  soporta JS   
+[Lista completa (apache)](http://fiftyone.apachemobilefilter.org/)
+
+</SECTION>
+<SECTION data-markdown>
+<h3>Más útiles/usadas</h3>
+<table id="capability">
+            <tbody>
+              <tr bgcolor="#CCC">
+                <th width="25%">Capability</th><th width="25%">Type</th><th>Description</th>
+              </tr>
+              <tr>
+                <td>ux_full_desktop</td>
+                <td>Boolean</td>
+                <td><p>True if the device is a full desktop web browser</p></td>
+              </tr>
+              <tr>
+                <td>is_wireless_device</td>
+                <td>Boolean</td>
+                <td>Specifically a mobile phone, PDA, and tablet are considered wireless devices, while a desktop PC or laptop are not.</td>
+              </tr>
+            </tbody>
+</table>
+              
+</SECTION>
+<section>
+  <h3>Más útiles/usadas (cont)</h3>
+<table id="capability">
+            <tbody>
+             <tr bgcolor="#CCC">
+                <th width="25%">Capability</th><th width="25%">Type</th><th>Description</th>
+              </tr>
+              <tr>  
+              <td>is_tablet</td>
+                <td>Boolean</td>
+                <td>True if a device is generally considered a tablet.</td>
+              </tr>
+              <tr>
+                <td>brand_name</td>
+                <td>String</td>
+                <td>The brand of the device (ex: HTC).</td>
+              </tr> 
+              <tr>
+                <td>model_name</td>
+                <td>String</td>
+                <td>The model of the device (ex: Incredible).</td>
+              </tr>
+              <tr>
+                <td>device_os</td>
+                <td>String</td>
+                <td>(ex: Android, IOS,Bada).</td>
+              </tr>
+              <tr>
+                <td>device_os_version</td>
+                <td>String</td>
+                <td>...</td>
+              </tr>
+            </tbody>
+          </table>
+</section>
+<SECTION>
+  <h2>WURFL (C#)</h2>
+  <pre>
+    <code class="cs">
+public interface IDevice
+{
+  String Id { get; }
+  String UserAgent { get; }
+  String NormalizedUserAgent { get; }
+  String GetCapability(String name);
+  IDevice GetDeviceRoot();
+  IDevice GetFallbackDevice();
+  String GetMatcher();
+  String GetMethod();
+  IDictionary<String, String> GetCapabilities();
+}
+
+var is_tablet = device.GetCapability("is_tablet");
+var deviceInfo = GetDeviceForRequest(userAgent, MatchMode.Accuracy);
+    </code>
+  </pre>
+</SECTION>
+<SECTION>
+  <h2>Configuración</h2>
+  <pre>
+    <code class="cs">
+public class Global : HttpApplication
+{
+  public const String WurflManagerCacheKey = "__WurflManager";
+  public const String WurflDataFilePath = "~/App_Data/wurfl.zip";
+  public const String WurflPatchFilePath = "~/App_Data/web_browsers_patch.xml";
+  
+  private void Application_Start(Object sender, EventArgs e)
+  {
+    var wurflDataFile = HttpContext.Current.Server.MapPath(WurflDataFilePath);
+    var wurflPatchFile = HttpContext.Current.Server.MapPath(WurflPatchFilePath);
+    var configurer = new InMemoryConfigurer()
+    .MainFile(wurflDataFile)
+    .PatchFile(wurflPatchFile);
+    //SE PUEDE METER EN WEB.CONFIG, previa registración del tag &lt;section name="wurfl"&gt;...
+    var manager = WURFLManagerBuilder.Build(configurer);
+    HttpContext.Current.Cache[WurflManagerCacheKey] = manager;
+}
+}
+
+    </code>
+  </pre>
+</SECTION>
+</SECTION>
+<SECTION>
+<section data-markdown>
+##Puntos clave
+
+El enfoque primario está en mobile    
+
+![FTW](textures/dk.jpg)
+</section>
+<section data-markdown>
+###PERFORMANCE VS SIMPLICIDAD DE DISEÑO   
+
+ Responsive images:   
+
+ *   [Picture](http://responsiveimages.org/demos/on-a-grid/index.html)  
+
+ *   [srcset](http://www.w3.org/html/wg/drafts/srcset/w3c-srcset/#attr-img-srcset) (webkit ...beta?)    
+
+   
+
+[Responsive Text](http://www.frankieroberto.com/responsive_text/)
+
+[Responsive Font](http://simplefocus.com/flowtype/)
+
+![warning](textures/minion.gif)
+</section>
+</section>
+        <SECTION >
+          <h1>Preguntas?</h1>
+          <img src="textures/Puss_in_boots1.jpg">
+          <br/>
+          <span>
+          <img src="textures/email5.gif" style="height: 1em;float:none">facundo.a.ferrero@accenture.com
+        </span>
+        <br/>
+        <span>
+        <img src="textures/twitter.png"style="height: 1em;float:none">@facundo_ferrero
+        </span>
+        </SECTION>
+
+
+
+
+
+       
+    </div>
+		</div>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'concave', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+		</script>
+		<style>
+		#comp{
+			position:fixed;
+			left:0;
+			top:0;
+			width:100%;
+			height:100%;
+			opacity:0.1;
+		}
+
+        .leftAligned{
+            text-align: left;
+        }
+		</style>
+		<div id="disp"><canvas id="comp"></canvas></div>
+		<video id="video" autoplay width="300" style="display:none"></video>
+		<canvas id="canvas" style="width:300px;display:none;"></canvas>
+
+		<script src="js/gesture.js"></script>	
+    </body>
+</html>
